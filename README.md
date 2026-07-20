@@ -6,8 +6,7 @@ compiles deterministic, purpose-scoped context handoffs.
 > **Alpha:** the current package version is `0.1.0a2`. File formats and command output may change
 > before the first stable release.
 >
-> **Pre-release / not yet published:** no package, Git tag, public repository, or hosted release
-> is claimed by this source tree.
+> **Pre-release / not yet published to PyPI.** Latest source tag: `v0.1.0-alpha.2`.
 
 HOME Framework is **not an automatic memory system**. It does not preserve or prove continuous AI
 consciousness, infer consent, read chat history, or send workspace content to third-party

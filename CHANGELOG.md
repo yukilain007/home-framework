@@ -6,14 +6,26 @@ The project follows Semantic Versioning. Prerelease APIs may change before `1.0.
 
 ## Unreleased
 
+## [0.1.0a2] - 2026-07-20
+
 ### 0.1.0a2 release candidate
 
-- Added a strict workspace manifest and safe, idempotent `home init`.
-- Added machine-readable export metadata and deterministic stale-export detection.
-- Added `home doctor` lifecycle, export, security, and Git hygiene diagnostics.
-- Added a bounded redacted secret scanner, local quality runner, pre-commit hooks, and CI.
-- Added local release-candidate checks for Python 3.11, distribution archives, and clean wheel
-  installation. No package, tag, remote, or hosted release has been published.
+This release candidate was frozen as `v0.1.0-alpha.2` on 2026-07-20.
+
+### Added
+
+- Versioned authority, workspace and handoff models.
+- Deterministic context compilation and Markdown exports.
+- Safe workspace initialization and health diagnostics.
+- Stale-export detection and machine-readable export metadata.
+- Path, symlink, secret and repository-boundary protections.
+- Python 3.11 quality gates and GitHub Actions validation.
+
+### Security
+
+- Public repository history was rebuilt from a reviewed source snapshot.
+- Private HOME content and internal development history were excluded.
+- Secret content is always denied from exports.
 
 ## 0.1.0a1 - 2026-07-20
 
