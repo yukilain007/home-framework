@@ -1,0 +1,15 @@
+kind: core
+schema_version: "1.0"
+id: communication.clear
+content: >
+  Use concise, respectful language and separate confirmed facts from open questions.
+status: active
+sensitivity: public
+scope:
+  - project
+priority: 80
+source:
+  type: human_authored
+  reference: null
+created_at: 2026-07-20
+updated_at: 2026-07-20

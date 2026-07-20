@@ -1,0 +1,33 @@
+repos:
+  - repo: local
+    hooks:
+      - id: schema-drift
+        name: schema drift
+        entry: python scripts/check_schema_drift.py
+        language: system
+        pass_filenames: false
+      - id: ruff-format-check
+        name: ruff format check
+        entry: ruff format --check .
+        language: system
+        pass_filenames: false
+      - id: ruff-check
+        name: ruff check
+        entry: ruff check .
+        language: system
+        pass_filenames: false
+      - id: mypy
+        name: mypy
+        entry: mypy src scripts
+        language: system
+        pass_filenames: false
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        pass_filenames: false
+      - id: secret-scan
+        name: bounded secret scan
+        entry: python scripts/scan_secrets.py .
+        language: system
+        pass_filenames: false

@@ -1,0 +1,123 @@
+{
+  "$defs": {
+    "HandoffInclude": {
+      "additionalProperties": false,
+      "description": "Explicit selectors and sensitivity allowlist for a handoff.",
+      "properties": {
+        "core_ids": {
+          "default": [],
+          "items": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Core Ids",
+          "type": "array"
+        },
+        "current_ids": {
+          "default": [],
+          "items": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Current Ids",
+          "type": "array"
+        },
+        "scopes": {
+          "default": [],
+          "items": {
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Scopes",
+          "type": "array"
+        },
+        "sensitivities": {
+          "default": [
+            "public"
+          ],
+          "items": {
+            "enum": [
+              "public",
+              "private"
+            ],
+            "type": "string"
+          },
+          "title": "Sensitivities",
+          "type": "array"
+        }
+      },
+      "title": "HandoffInclude",
+      "type": "object"
+    },
+    "HandoffOutput": {
+      "additionalProperties": false,
+      "description": "Requested output format for a handoff.",
+      "properties": {
+        "format": {
+          "const": "markdown",
+          "title": "Format",
+          "type": "string"
+        }
+      },
+      "required": [
+        "format"
+      ],
+      "title": "HandoffOutput",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reviewed instructions for selecting a context handoff.",
+  "properties": {
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "include": {
+      "$ref": "#/$defs/HandoffInclude"
+    },
+    "kind": {
+      "const": "handoff",
+      "title": "Kind",
+      "type": "string"
+    },
+    "output": {
+      "$ref": "#/$defs/HandoffOutput"
+    },
+    "purpose": {
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "title": {
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "id",
+    "title",
+    "purpose",
+    "include",
+    "output"
+  ],
+  "title": "HandoffDocument",
+  "type": "object"
+}

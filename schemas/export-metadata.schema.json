@@ -1,0 +1,36 @@
+{
+  "additionalProperties": false,
+  "description": "Strict data embedded in the first line of every Markdown export.",
+  "properties": {
+    "context_date": {
+      "format": "date",
+      "title": "Context Date",
+      "type": "string"
+    },
+    "fingerprint": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Fingerprint",
+      "type": "string"
+    },
+    "handoff_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Handoff Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "handoff_id",
+    "context_date",
+    "fingerprint"
+  ],
+  "title": "ExportMetadata",
+  "type": "object"
+}

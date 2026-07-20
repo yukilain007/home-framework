@@ -1,0 +1,15 @@
+kind: core
+schema_version: "1.0"
+id: workflow.review
+content: >
+  Run the documented checks before declaring the fictional Lantern Index project complete.
+status: active
+sensitivity: public
+scope:
+  - project
+priority: 90
+source:
+  type: human_authored
+  reference: null
+created_at: 2026-07-20
+updated_at: 2026-07-20

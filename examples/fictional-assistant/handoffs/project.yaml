@@ -1,0 +1,15 @@
+kind: handoff
+schema_version: "1.0"
+id: project.execution
+title: Fictional project execution context
+purpose: >
+  Continue implementation using reviewed fictional material.
+include:
+  scopes:
+    - project
+  core_ids: []
+  current_ids: []
+  sensitivities:
+    - public
+output:
+  format: markdown

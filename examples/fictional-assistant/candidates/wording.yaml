@@ -1,0 +1,17 @@
+kind: candidate
+schema_version: "1.0"
+id: candidate.wording
+proposed_kind: core
+content: >
+  Consider using a shorter heading in a future fictional export.
+sensitivity: private
+scope:
+  - project
+source:
+  type: human_authored
+  reference: null
+created_at: 2026-07-20
+decision:
+  reviewed: false
+  action: null
+  reviewed_at: null

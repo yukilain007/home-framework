@@ -1,0 +1,158 @@
+{
+  "$defs": {
+    "CandidateDecision": {
+      "additionalProperties": false,
+      "description": "Human review state for a candidate that never enters compilation.",
+      "properties": {
+        "action": {
+          "anyOf": [
+            {
+              "enum": [
+                "approve",
+                "reject"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Action"
+        },
+        "reviewed": {
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewed At"
+        }
+      },
+      "required": [
+        "reviewed"
+      ],
+      "title": "CandidateDecision",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "description": "Provenance supplied by a human-controlled authority file.",
+      "properties": {
+        "reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference"
+        },
+        "type": {
+          "enum": [
+            "human_authored",
+            "human_reviewed",
+            "verified_import"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Untrusted proposal awaiting or recording human review.",
+  "properties": {
+    "content": {
+      "minLength": 1,
+      "title": "Content",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date",
+      "title": "Created At",
+      "type": "string"
+    },
+    "decision": {
+      "$ref": "#/$defs/CandidateDecision"
+    },
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "const": "candidate",
+      "title": "Kind",
+      "type": "string"
+    },
+    "proposed_kind": {
+      "enum": [
+        "core",
+        "current"
+      ],
+      "title": "Proposed Kind",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scope": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 1,
+        "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+        "type": "string"
+      },
+      "title": "Scope",
+      "type": "array"
+    },
+    "sensitivity": {
+      "enum": [
+        "public",
+        "private",
+        "secret"
+      ],
+      "title": "Sensitivity",
+      "type": "string"
+    },
+    "source": {
+      "$ref": "#/$defs/Source"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "id",
+    "proposed_kind",
+    "content",
+    "sensitivity",
+    "scope",
+    "source",
+    "created_at",
+    "decision"
+  ],
+  "title": "CandidateDocument",
+  "type": "object"
+}

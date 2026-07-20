@@ -1,0 +1,74 @@
+{
+  "$defs": {
+    "WorkspaceDefaults": {
+      "additionalProperties": false,
+      "description": "Small set of workspace-wide path defaults.",
+      "properties": {
+        "export_directory": {
+          "maxLength": 256,
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9._-]*(?:/[a-z0-9][a-z0-9._-]*)*$",
+          "title": "Export Directory",
+          "type": "string"
+        }
+      },
+      "required": [
+        "export_directory"
+      ],
+      "title": "WorkspaceDefaults",
+      "type": "object"
+    },
+    "WorkspaceFramework": {
+      "additionalProperties": false,
+      "description": "Framework compatibility declared by a workspace.",
+      "properties": {
+        "minimum_version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+(?:a\\d+)?$",
+          "title": "Minimum Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "minimum_version"
+      ],
+      "title": "WorkspaceFramework",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Versioned marker identifying a HOME Framework workspace.",
+  "properties": {
+    "defaults": {
+      "$ref": "#/$defs/WorkspaceDefaults"
+    },
+    "framework": {
+      "$ref": "#/$defs/WorkspaceFramework"
+    },
+    "kind": {
+      "const": "workspace",
+      "title": "Kind",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Name",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "name",
+    "framework",
+    "defaults"
+  ],
+  "title": "WorkspaceManifest",
+  "type": "object"
+}
