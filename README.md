@@ -3,11 +3,10 @@
 HOME Framework is a local-first Python toolkit that validates reviewed authority files and
 compiles deterministic, purpose-scoped context handoffs.
 
-> **Alpha:** the current package version is `0.1.0a3`. File formats and command output may change
-> before the first stable release.
+> **Pre-release / not yet published to PyPI.** The current package version is `0.1.0a3`.
 >
-> **Pre-release / not yet published to PyPI.** Alpha.3 is under development and has not been
-> tagged.
+> This project is currently in alpha development; file formats and command output may change
+> before the first stable release.
 
 HOME Framework is **not an automatic memory system**. It does not preserve or prove continuous AI
 consciousness, infer consent, read chat history, or send workspace content to third-party

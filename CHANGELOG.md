@@ -6,11 +6,15 @@ The project follows Semantic Versioning. Prerelease APIs may change before `1.0.
 
 ## Unreleased
 
+## [0.1.0a3] - 2026-07-21
+
 ### 0.1.0a3 release candidate
 
-- Hardened public package author, repository URL, and classifier metadata.
+- Hardened public package metadata with the reviewed maintainer identity.
+- Added the public project homepage, repository, and issue tracker URLs.
+- Added reviewed development-status, Python-version, audience, and topic classifiers.
 - Excluded internal development records from source distributions.
-- Added an inert manual workflow template that cannot publish packages.
+- Added an inert manual workflow template in preparation for future Trusted Publishing.
 
 ## [0.1.0a2] - 2026-07-20
 

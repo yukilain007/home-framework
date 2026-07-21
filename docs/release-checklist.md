@@ -5,6 +5,15 @@ approved, the matching annotated Git tag would be `v0.1.0-alpha.3`. The project 
 not yet published; completing local checks does not authorize a tag, package upload, or hosted
 release.
 
+## v0.1.0-alpha.3
+
+- [x] Metadata review completed
+- [x] Packaging review completed
+- [x] Security review completed
+- [x] Release notes prepared
+- [ ] Tag approval pending
+- [ ] PyPI publication approval pending
+
 ## Automated
 
 - [x] Python 3.11 validation (`3.11.15`, official `python:3.11-slim` container)
@@ -32,7 +41,6 @@ release.
 - [ ] Confirm ownership of the `home-framework` package name on PyPI
 - [ ] Confirm Apache-2.0 is the intended license for public release
 - [x] Confirm public author metadata
-- [ ] Approve release notes
 - [ ] Approve creation of annotated tag `v0.1.0-alpha.3`
 
 ## Requires public remote
