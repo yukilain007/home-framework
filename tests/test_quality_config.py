@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -8,6 +9,72 @@ import yaml
 from home_framework.quality import extract_fingerprint, find_schema_drift, run_command
 
 ROOT = Path(__file__).parents[1]
+
+EXPECTED_CLASSIFIERS = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+
+def _pyproject() -> dict[str, object]:
+    return tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+
+
+def test_public_package_identity_uses_reviewed_github_metadata() -> None:
+    project = _pyproject()["project"]
+
+    assert project["authors"] == [
+        {
+            "name": "Yuki",
+            "email": "293018124+yukilain007@users.noreply.github.com",
+        }
+    ]
+    assert project["urls"] == {
+        "Homepage": "https://github.com/yukilain007/home-framework",
+        "Repository": "https://github.com/yukilain007/home-framework",
+        "Issues": "https://github.com/yukilain007/home-framework/issues",
+    }
+
+
+def test_public_package_classifiers_are_reviewed_and_do_not_duplicate_license() -> None:
+    project = _pyproject()["project"]
+
+    assert project["classifiers"] == EXPECTED_CLASSIFIERS
+    assert not any(item.startswith("License ::") for item in project["classifiers"])
+
+
+def test_sdist_excludes_internal_development_records() -> None:
+    hatch = _pyproject()["tool"]["hatch"]
+
+    assert hatch["build"]["targets"]["sdist"]["exclude"] == ["/docs/superpowers"]
+
+
+def test_publish_workflow_is_an_inert_manual_template() -> None:
+    workflow_path = ROOT / ".github/workflows/publish.yml"
+    source = workflow_path.read_text(encoding="utf-8")
+    workflow = yaml.load(source, Loader=yaml.BaseLoader)
+
+    assert set(workflow["on"]) == {"workflow_dispatch"}
+    assert workflow["permissions"] == {"contents": "read"}
+    assert set(workflow["jobs"]) == {"publication-boundary"}
+    assert "uses" not in workflow["jobs"]["publication-boundary"]["steps"][0]
+    lowered = source.lower()
+    for prohibited in (
+        "release:",
+        "id-token",
+        "pypa/gh-action-pypi-publish",
+        "twine upload",
+        "uv publish",
+        "poetry publish",
+        "pypi_token",
+        "twine_password",
+        "secret",
+    ):
+        assert prohibited not in lowered
 
 
 def test_pre_commit_uses_required_local_hooks() -> None:

@@ -1,8 +1,8 @@
 # Alpha release checklist
 
-This checklist covers the local release candidate for package version `0.1.0a2`. If approved,
-the matching annotated Git tag is `v0.1.0-alpha.2`. The project is pre-release and not yet
-published; completing local checks does not authorize a tag, push, package upload, or hosted
+This checklist covers the local release candidate for package version `0.1.0a3`. If separately
+approved, the matching annotated Git tag would be `v0.1.0-alpha.3`. The project is pre-release and
+not yet published; completing local checks does not authorize a tag, package upload, or hosted
 release.
 
 ## Automated
@@ -26,20 +26,20 @@ release.
 
 ## Manual
 
-- [x] Distribution metadata reviewed for private names, paths, email addresses, and invented URLs
-- [x] Wheel and sdist contents reviewed
+- [x] Distribution metadata reviewed for private names, paths, email addresses, and public URLs
+- [x] Wheel and sdist content boundaries reviewed
 - [x] README and changelog state the candidate is not published
-- [ ] Confirm `home-framework` as the final public package name; registry availability is unverified
+- [ ] Confirm ownership of the `home-framework` package name on PyPI
 - [ ] Confirm Apache-2.0 is the intended license for public release
-- [ ] Confirm the public owner or organization name, if package metadata should name one
+- [x] Confirm public author metadata
 - [ ] Approve release notes
-- [ ] Approve creation of annotated tag `v0.1.0-alpha.2`
+- [ ] Approve creation of annotated tag `v0.1.0-alpha.3`
 
 ## Requires public remote
 
-- [ ] Choose the GitHub owner and repository name
-- [ ] Add and review the public repository URL in project metadata
-- [ ] Run the GitHub-hosted Python 3.11 workflow successfully
-- [ ] Approve the first push
-- [ ] Confirm the pushed branch and annotated tag point to the approved commit
+- [x] Choose the GitHub owner and repository name
+- [x] Add and review the public repository URL in project metadata
+- [x] Run the GitHub-hosted Python 3.11 workflow successfully for the existing public baseline
+- [x] Approve the Alpha.3 implementation push
+- [ ] Confirm a future annotated tag points to the approved Alpha.3 commit
 - [ ] Approve any PyPI upload or GitHub Release as a separate action

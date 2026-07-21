@@ -1,0 +1,14 @@
+name: publish-template
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publication-boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm publishing remains disabled
+        run: echo "PyPI publishing is not enabled in this workflow."

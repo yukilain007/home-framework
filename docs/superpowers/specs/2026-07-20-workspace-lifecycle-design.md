@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved for HOME Framework `0.1.0a2` implementation on 2026-07-20.
+Approved for the workspace lifecycle implementation on 2026-07-20.
 
 ## Goal
 

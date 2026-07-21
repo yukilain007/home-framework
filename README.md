@@ -3,10 +3,11 @@
 HOME Framework is a local-first Python toolkit that validates reviewed authority files and
 compiles deterministic, purpose-scoped context handoffs.
 
-> **Alpha:** the current package version is `0.1.0a2`. File formats and command output may change
+> **Alpha:** the current package version is `0.1.0a3`. File formats and command output may change
 > before the first stable release.
 >
-> **Pre-release / not yet published to PyPI.** Latest source tag: `v0.1.0-alpha.2`.
+> **Pre-release / not yet published to PyPI.** Alpha.3 is under development and has not been
+> tagged.
 
 HOME Framework is **not an automatic memory system**. It does not preserve or prove continuous AI
 consciousness, infer consent, read chat history, or send workspace content to third-party
@@ -57,7 +58,8 @@ python -m venv .venv
 python -m pip install -e ".[dev]"
 ```
 
-The public package name remains provisional and has not been checked against a package registry.
+The intended public package name is `home-framework`; registry ownership still requires explicit
+confirmation before publication.
 
 ## Quickstart
 
@@ -119,7 +121,7 @@ kind: workspace
 schema_version: "1.0"
 name: example-home
 framework:
-  minimum_version: 0.1.0a2
+  minimum_version: 0.1.0a3
 defaults:
   export_directory: exports
 ```
@@ -199,13 +201,13 @@ authority data, or modify schemas.
 - No automatic candidate approval or authority-file mutation.
 - Markdown is the only renderer.
 - Schema version `1.0` is the only accepted protocol version.
-- GitHub-hosted CI has not been exercised until a public remote exists.
+- PyPI publishing remains disabled pending explicit approval and publisher configuration.
 
 ## Roadmap
 
 Possible later increments include schema migration tooling, richer renderer plugins, explicit
 export garbage collection, and compatibility testing on additional Python versions. They are
-outside the `0.1.0a2` scope.
+outside the `0.1.0a3` scope.
 
 ## License
 

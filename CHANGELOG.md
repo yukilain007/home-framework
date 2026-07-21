@@ -6,6 +6,12 @@ The project follows Semantic Versioning. Prerelease APIs may change before `1.0.
 
 ## Unreleased
 
+### 0.1.0a3 release candidate
+
+- Hardened public package author, repository URL, and classifier metadata.
+- Excluded internal development records from source distributions.
+- Added an inert manual workflow template that cannot publish packages.
+
 ## [0.1.0a2] - 2026-07-20
 
 ### 0.1.0a2 release candidate

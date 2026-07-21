@@ -2,6 +2,6 @@ kind: workspace
 schema_version: "1.0"
 name: fictional-assistant
 framework:
-  minimum_version: 0.1.0a2
+  minimum_version: 0.1.0a3
 defaults:
   export_directory: exports
