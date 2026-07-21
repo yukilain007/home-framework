@@ -1,14 +1,31 @@
-name: publish-template
+name: publish
 
 on:
   workflow_dispatch:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
-  publication-boundary:
+  publish:
+    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/home-framework
     steps:
-      - name: Confirm publishing remains disabled
-        run: echo "PyPI publishing is not enabled in this workflow."
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install build tooling
+        run: python -m pip install build twine
+      - name: Build distributions
+        run: python -m build
+      - name: Validate distributions
+        run: python -m twine check dist/*
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

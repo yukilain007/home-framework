@@ -53,28 +53,62 @@ def test_sdist_excludes_internal_development_records() -> None:
     assert hatch["build"]["targets"]["sdist"]["exclude"] == ["/docs/superpowers"]
 
 
-def test_publish_workflow_is_an_inert_manual_template() -> None:
+def test_publish_workflow_is_manual_oidc_template() -> None:
     workflow_path = ROOT / ".github/workflows/publish.yml"
     source = workflow_path.read_text(encoding="utf-8")
     workflow = yaml.load(source, Loader=yaml.BaseLoader)
 
     assert set(workflow["on"]) == {"workflow_dispatch"}
-    assert workflow["permissions"] == {"contents": "read"}
-    assert set(workflow["jobs"]) == {"publication-boundary"}
-    assert "uses" not in workflow["jobs"]["publication-boundary"]["steps"][0]
+    assert workflow["permissions"] == {"contents": "read", "id-token": "write"}
+    assert set(workflow["jobs"]) == {"publish"}
+    publish = workflow["jobs"]["publish"]
+    assert publish["if"] == "github.ref_type == 'tag'"
+    assert publish["environment"] == {
+        "name": "pypi",
+        "url": "https://pypi.org/p/home-framework",
+    }
+    uses = [step.get("uses") for step in publish["steps"] if "uses" in step]
+    assert uses == [
+        "actions/checkout@v4",
+        "actions/setup-python@v5",
+        "pypa/gh-action-pypi-publish@release/v1",
+    ]
+    assert publish["steps"][0]["with"]["ref"] == "${{ github.ref }}"
+    commands = "\n".join(step.get("run", "") for step in publish["steps"])
+    assert "python -m pip install build twine" in commands
+    assert "python -m build" in commands
+    assert "python -m twine check dist/*" in commands
     lowered = source.lower()
     for prohibited in (
         "release:",
-        "id-token",
-        "pypa/gh-action-pypi-publish",
         "twine upload",
         "uv publish",
         "poetry publish",
         "pypi_token",
         "twine_password",
-        "secret",
+        "twine_username",
+        "api-token",
+        "secrets.",
     ):
         assert prohibited not in lowered
+    assert all(
+        not line.strip().startswith(("password:", "token:")) for line in lowered.splitlines()
+    )
+
+
+def test_publishing_guide_keeps_publication_disabled_until_external_approval() -> None:
+    guide = (ROOT / "docs/publishing.md").read_text(encoding="utf-8")
+
+    assert "PyPI publication disabled" in guide
+    assert "Trusted Publishing" in guide
+    assert "OIDC" in guide
+    assert "workflow_dispatch" in guide
+    assert "PyPI project and Trusted Publisher" in guide
+    assert "Alpha" in guide
+    assert "Beta" in guide
+    assert "Stable" in guide
+    assert "v0.1.0-alpha.3" in guide
+    assert "predates this workflow" in guide
 
 
 def test_pre_commit_uses_required_local_hooks() -> None:
