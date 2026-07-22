@@ -1,18 +1,94 @@
 # HOME Framework
 
-HOME Framework is a local-first Python toolkit that validates reviewed authority files and
-compiles deterministic, purpose-scoped context handoffs.
+**Your context belongs to you.**
 
-> **Pre-release / published to PyPI.** The current package version is `0.1.0a4`.
->
-> This project is currently in alpha development; file formats and command output may change
-> before the first stable release.
+## Before HOME
+
+When a project moves between chats, models, or tools, people often have to repeat background,
+restate decisions, and guess what should be shared with the next AI workflow.
+
+## After HOME
+
+HOME Framework is a local-first Python toolkit that validates reviewed authority files and
+compiles deterministic, purpose-scoped context handoffs. It gives an AI the information needed for
+one task, while keeping unreviewed, expired, or out-of-scope material out of that handoff.
+
+## Clear boundaries
 
 English | [简体中文](README.zh-CN.md)
 
 HOME Framework is **not an automatic memory system**. It does not preserve or prove continuous AI
 consciousness, infer consent, read chat history, or send workspace content to third-party
 services.
+
+> **Status — Pre-release / published to PyPI.** The current package version is `0.1.0a4`.
+> File formats and command output may change before the first stable release.
+
+[![PyPI](https://img.shields.io/pypi/v/home-framework)](https://pypi.org/project/home-framework/)
+[![Python](https://img.shields.io/pypi/pyversions/home-framework)](https://pypi.org/project/home-framework/)
+[![License](https://img.shields.io/github/license/yukilain007/home-framework)](LICENSE)
+[![CI](https://github.com/yukilain007/home-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/yukilain007/home-framework/actions/workflows/ci.yml)
+
+## Quickstart
+
+HOME requires Python 3.11 or newer. Install the published alpha package, then create and run a
+fully fictional example workspace:
+
+```bash
+python -m pip install home-framework==0.1.0a4
+
+home init example-home --name example-home
+home validate example-home
+home build example-home --handoff project.execution --as-of 2026-07-20
+home doctor example-home --as-of 2026-07-20
+```
+
+The generated handoff is written to `example-home/exports/project.execution.md`. Start with the
+concepts below, or read the [Chinese zero-technical-background guide](docs/guides/zero-tech-user-guide.zh-CN.md)
+for an AI-assisted local setup with explicit user approvals.
+
+## What HOME produces
+
+HOME compiles reviewed local authority files into a readable, purpose-scoped Context Handoff.
+
+```text
+Reviewed local context
+        ↓
+Deterministic compile
+        ↓
+Purpose-scoped Markdown
+        ↓
+User-approved handoff
+```
+
+The Markdown export is a derived artifact: it can be deleted and rebuilt from its authority files.
+Its canonical metadata records the selected handoff, context date, and fingerprint.
+
+## First-run details
+
+`home init` creates two public fictional authority documents and one handoff, so the example can
+validate and build immediately. Review and replace that example content before using the workspace
+for real work. Re-running `home init` on a valid workspace is safe and does not overwrite files;
+an unknown non-empty directory is refused.
+
+For the same authority files, handoff, and context date, repeated builds produce the same
+fingerprint. Without `--as-of`, `home build` and `home doctor` use the local date, so tests and
+reproducible automation should always provide it.
+
+`home doctor` exits with `1` when it finds an error. Warnings normally leave the exit status at
+`0`; use `home doctor example-home --as-of 2026-07-20 --strict` when warnings should also return
+`1`. Informational diagnostics never change the exit status.
+
+## How approval works
+
+HOME does not decide what becomes long-lived context. A human operator makes core and current
+documents authoritative by placing them in their reviewed directories. Candidate documents remain
+proposals—even when their review metadata records approval—and never become compiler inputs.
+Promotion is an external human action, not an automated framework action.
+
+Each handoff then explicitly selects document IDs, scopes, and permitted sensitivities for one
+purpose. This makes the resulting Context Handoff inspectable and limits it to the context chosen
+for that task.
 
 ## Core concepts
 
@@ -48,66 +124,6 @@ workspace manifest and authority YAML files
   values.
 
 See [the privacy model](docs/privacy-model.md) and [security policy](SECURITY.md).
-
-## Installation
-
-HOME Framework requires Python 3.11 or newer.
-
-Install the published alpha package:
-
-```bash
-python -m pip install home-framework==0.1.0a4
-```
-
-For local development, install from a checkout:
-
-```bash
-python -m venv .venv
-. .venv/bin/activate
-python -m pip install -e ".[dev]"
-```
-
-## Quickstart
-
-Create a new fictional workspace without initializing Git or creating a remote:
-
-```bash
-home init example-home --name example-home
-```
-
-The generated workspace contains two public fictional authority documents and one handoff, so it
-can validate and build immediately. Repeating `home init` on a valid workspace is safe and does
-not overwrite files. A non-empty unknown directory is refused.
-
-Validate the generated example workspace:
-
-```bash
-home validate example-home
-```
-
-Build a context for a fixed date:
-
-```bash
-home build example-home \
-  --handoff project.execution \
-  --as-of 2026-07-20
-```
-
-The default output is
-`example-home/exports/project.execution.md`. Repeating a build with the same
-authority files, handoff, and context date produces the same fingerprint. The real generation
-timestamp is display metadata and is not part of the fingerprint.
-
-Inspect lifecycle, export, security, and Git hygiene for the same date:
-
-```bash
-home doctor example-home --as-of 2026-07-20
-home doctor example-home --as-of 2026-07-20 --strict
-```
-
-Without `--as-of`, build and doctor use the local date. Tests and reproducible automation should
-always provide it. Doctor returns `1` when an error exists. Warnings return `0` normally and `1`
-under `--strict`; informational diagnostics never change the exit status.
 
 ## Workspace layout
 
@@ -188,6 +204,16 @@ This is a defense-in-depth aid, not a guarantee that a workspace contains no sen
 - `home init` never runs `git init`, adds a remote, or generates personal profiles.
 
 ## Development
+
+For local development from a checkout:
+
+```bash
+python -m venv .venv
+. .venv/bin/activate
+python -m pip install -e ".[dev]"
+```
+
+Then run the local quality checks:
 
 ```bash
 python scripts/check.py
