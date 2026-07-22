@@ -29,18 +29,25 @@ def test_release_documents_and_example_use_current_version() -> None:
     changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     checklist = (ROOT / "docs/release-checklist.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    freeze_path = ROOT / "docs/releases/v0.1.0-alpha.4-freeze.md"
     example = yaml.safe_load(
         (ROOT / "examples/fictional-assistant/home.yaml").read_text(encoding="utf-8")
     )
 
     assert "## Unreleased" in changelog
-    assert f"### {__version__} release candidate" in changelog
-    assert f"## {__version__} -" not in changelog
+    assert f"## [{__version__}] - 2026-07-22" in changelog
+    unreleased = changelog.split("## Unreleased", maxsplit=1)[1].split("## [", maxsplit=1)[0]
+    assert __version__ not in unreleased
     assert "Pre-release / not yet published" in readme
     assert "v0.1.0-alpha.4" in checklist
     previous_tag = "v0.1.0-alpha" + ".3"
     assert previous_tag not in checklist
     assert example["framework"]["minimum_version"] == __version__
+    assert freeze_path.exists()
+    freeze = freeze_path.read_text(encoding="utf-8")
+    assert "Alpha.4 is frozen." in freeze
+    assert "13c3e76373902db71f2eeb16d3945f2af1ad4a99" in freeze
+    assert "Published via Trusted Publishing" in freeze
 
 
 def test_previous_version_only_appears_in_historical_records() -> None:
