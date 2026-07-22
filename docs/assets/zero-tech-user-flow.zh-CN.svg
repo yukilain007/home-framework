@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1240" viewBox="0 0 1200 1240" role="img" aria-labelledby="title description">
+  <title id="title">HOME 零技术用户流程</title>
+  <desc id="description">用户进行三次关键确认，AI 在每次确认之间完成本地安装、信息草稿整理和交接文件预览。</desc>
+  <style>
+    .bg { fill: #fbfaf7; }
+    .title { fill: #202a36; font: 700 34px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .subtitle { fill: #68707a; font: 400 18px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .lane-user { fill: #fff2e4; stroke: #e7a56d; stroke-width: 2; }
+    .lane-ai { fill: #edf5f1; stroke: #72a992; stroke-width: 2; }
+    .lane-label { fill: #202a36; font: 700 22px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .card { fill: #ffffff; stroke: #d8dde1; stroke-width: 1.5; }
+    .confirm { fill: #fff7ea; stroke: #d88a47; stroke-width: 2.5; }
+    .step { fill: #202a36; font: 700 17px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .body { fill: #4e5864; font: 400 15px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .small { fill: #68707a; font: 400 13px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .arrow { stroke: #75818c; stroke-width: 2.25; fill: none; marker-end: url(#arrow); }
+    .dashed { stroke: #b56a74; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow-red); }
+    .note { fill: #fff4f5; stroke: #d5969f; stroke-width: 1.5; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#75818c"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b56a74"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="1240" rx="28"/>
+  <text x="70" y="68" class="title">把安装交给 AI，把决定权留给自己</text>
+  <text x="70" y="101" class="subtitle">HOME 零技术用户流程：三次关键确认，所有私人内容均由用户决定是否交付。</text>
+
+  <rect x="70" y="140" width="500" height="1010" rx="22" class="lane-user"/>
+  <rect x="630" y="140" width="500" height="1010" rx="22" class="lane-ai"/>
+  <text x="105" y="185" class="lane-label">你：做决定</text>
+  <text x="665" y="185" class="lane-label">具备操作权限的 AI：执行并展示</text>
+
+  <rect x="110" y="230" width="420" height="125" rx="16" class="confirm"/>
+  <text x="140" y="272" class="step">确认 1｜HOME 放在哪里？</text>
+  <text x="140" y="304" class="body">选择工作区位置与名称。</text>
+  <text x="140" y="329" class="small">未确认前，AI 不自行创建位置。</text>
+
+  <rect x="670" y="230" width="420" height="125" rx="16" class="card"/>
+  <text x="700" y="267" class="step">检查环境并初始化</text>
+  <text x="700" y="296" class="body">检查 Python 3.11+；使用独立虚拟环境。</text>
+  <text x="700" y="321" class="small">安装 HOME、核对 CLI help、初始化示例工作区。</text>
+  <text x="700" y="342" class="small">不使用 sudo；不初始化 Git；不创建远程。</text>
+
+  <path d="M530 292 H670" class="arrow"/>
+  <path d="M880 355 V405 H320 V435" class="arrow"/>
+
+  <rect x="110" y="435" width="420" height="145" rx="16" class="confirm"/>
+  <text x="140" y="477" class="step">确认 2｜内容准确且可共享吗？</text>
+  <text x="140" y="507" class="body">审阅信息草稿与隐私边界。</text>
+  <text x="140" y="532" class="small">可给外部 AI / 只留本地 / 每次询问 / 永不交付。</text>
+  <text x="140" y="557" class="small">可以修改、删除或停止。</text>
+
+  <rect x="670" y="435" width="420" height="145" rx="16" class="card"/>
+  <text x="700" y="472" class="step">整理草稿，再等待确认</text>
+  <text x="700" y="501" class="body">仅整理用户提供并已确认的内容。</text>
+  <text x="700" y="526" class="small">草稿 ≠ 候选信息 ≠ 最终批准。</text>
+  <text x="700" y="551" class="small">不把模型推测写成用户事实；不读无关文件。</text>
+
+  <path d="M530 507 H670" class="arrow"/>
+  <path d="M880 580 V660" class="arrow"/>
+
+  <rect x="110" y="660" width="420" height="145" rx="16" class="confirm"/>
+  <text x="140" y="702" class="step">确认 3｜批准这份 Handoff 吗？</text>
+  <text x="140" y="732" class="body">查看“会看到 / 不会看到”的预览。</text>
+  <text x="140" y="757" class="small">批准、修改、改为每次询问，或直接停止。</text>
+  <text x="140" y="782" class="small">未批准前，不交给其他 AI。</text>
+
+  <rect x="670" y="660" width="420" height="145" rx="16" class="card"/>
+  <text x="700" y="697" class="step">校验、构建、诊断与预览</text>
+  <text x="700" y="726" class="body">运行 validate、build、doctor。</text>
+  <text x="700" y="751" class="small">展示 Handoff 路径、全文与信息范围。</text>
+  <text x="700" y="776" class="small">生成的是待用户批准的本地文件。</text>
+
+  <path d="M670 732 H530" class="arrow"/>
+  <path d="M530 732 H670" class="arrow"/>
+
+  <rect x="110" y="895" width="420" height="155" rx="16" class="card"/>
+  <text x="140" y="932" class="step">你保留控制权</text>
+  <text x="140" y="962" class="body">决定是否把批准后的文件交给某个 AI。</text>
+  <text x="140" y="987" class="small">更换窗口或工具时，仍可重新审阅范围。</text>
+  <text x="140" y="1012" class="small">HOME 不代表永久记忆或连续意识。</text>
+
+  <rect x="670" y="895" width="420" height="155" rx="16" class="card"/>
+  <text x="700" y="932" class="step">AI 交付可检查的结果</text>
+  <text x="700" y="962" class="body">给出本地路径、诊断结果和交接范围。</text>
+  <text x="700" y="987" class="small">不公开、不上传、不自动复用候选信息。</text>
+  <text x="700" y="1012" class="small">没有操作权限时，只能解释，不能假装完成。</text>
+
+  <path d="M670 972 H530" class="arrow"/>
+
+  <rect x="655" y="1080" width="450" height="54" rx="14" class="note"/>
+  <text x="680" y="1113" class="body">云端 AI 读取私人内容前：单独询问并等待同意。</text>
+  <path d="M880 1080 V1055" class="dashed"/>
+
+  <text x="70" y="1200" class="small">安全例外：如需管理员权限、系统级安装或访问私人文件，AI 必须在当下单独取得明确许可。</text>
+</svg>
