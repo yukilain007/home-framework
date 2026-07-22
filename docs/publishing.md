@@ -1,8 +1,8 @@
 # Publishing HOME Framework
 
-> **Status: PyPI publication disabled.** This repository contains preparation for a future
-> release flow. The required PyPI project and Trusted Publisher configuration do not yet exist;
-> neither is created by this document or workflow.
+> **Status: Trusted Publisher configured. PyPI publication remains pending explicit approval.**
+> No distribution has been uploaded, and neither this document nor the workflow grants approval
+> to publish.
 
 ## Trusted Publishing
 
@@ -17,16 +17,18 @@ A job guard skips publication when the selected Git ref is not a tag.
 The `v0.1.0-alpha.3` tag predates this workflow preparation commit and must not be used to test or
 run this publishing path. Only a future release tag whose commit contains this workflow is eligible.
 
-The `pypi` GitHub Environment is the approval boundary. Before the first publication, maintainers
-should configure required reviewers for that environment and separately configure the matching
-project and Trusted Publisher on PyPI.
+The PyPI-side Trusted Publisher is configured for this repository, workflow, and `pypi`
+environment. That configuration does not authorize a workflow run or package upload. The `pypi`
+GitHub Environment remains the approval boundary and its protection rules must be verified before
+the first publication.
 
 ## Approval flow
 
 1. Complete the release-candidate audit and create the approved Git tag.
-2. Approve creation or use of the matching PyPI project as a separate action.
-3. Configure the PyPI Trusted Publisher for this repository, workflow, and `pypi` environment.
-4. Configure GitHub Environment reviewers and protection rules.
+2. Verify that the configured PyPI Trusted Publisher still matches this repository, workflow, and
+   `pypi` environment.
+3. Configure or verify GitHub Environment reviewers and protection rules.
+4. Obtain separate approval for the first PyPI publication.
 5. Manually run the publish workflow with the approved release tag selected as the Git ref.
 6. Review the environment approval request, then verify the published files and metadata.
 

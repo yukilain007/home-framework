@@ -1,17 +1,18 @@
 # Alpha release checklist
 
-This checklist covers the local release candidate for package version `0.1.0a3`. If separately
-approved, the matching annotated Git tag would be `v0.1.0-alpha.3`. The project is pre-release and
+This checklist covers the local release candidate for package version `0.1.0a4`. If separately
+approved, the matching annotated Git tag would be `v0.1.0-alpha.4`. The project is pre-release and
 not yet published; completing local checks does not authorize a tag, package upload, or hosted
 release.
 
-## v0.1.0-alpha.3
+## v0.1.0-alpha.4
 
 - [x] Metadata review completed
 - [x] Packaging review completed
 - [x] Security review completed
 - [x] Release notes prepared
 - [ ] Tag approval pending
+- [ ] GitHub Release approval pending
 - [ ] PyPI publication approval pending
 
 ## Automated
@@ -38,16 +39,16 @@ release.
 - [x] Distribution metadata reviewed for private names, paths, email addresses, and public URLs
 - [x] Wheel and sdist content boundaries reviewed
 - [x] README and changelog state the candidate is not published
-- [ ] Confirm ownership of the `home-framework` package name on PyPI
+- [x] Confirm the PyPI Trusted Publisher configuration
 - [ ] Confirm Apache-2.0 is the intended license for public release
 - [x] Confirm public author metadata
-- [ ] Approve creation of annotated tag `v0.1.0-alpha.3`
+- [ ] Approve creation of annotated tag `v0.1.0-alpha.4`
 
 ## Requires public remote
 
 - [x] Choose the GitHub owner and repository name
 - [x] Add and review the public repository URL in project metadata
 - [x] Run the GitHub-hosted Python 3.11 workflow successfully for the existing public baseline
-- [x] Approve the Alpha.3 implementation push
-- [ ] Confirm a future annotated tag points to the approved Alpha.3 commit
+- [x] Approve the Alpha.4 preparation implementation push
+- [ ] Confirm a future annotated tag points to the approved Alpha.4 commit
 - [ ] Approve any PyPI upload or GitHub Release as a separate action

@@ -6,6 +6,12 @@ The project follows Semantic Versioning. Prerelease APIs may change before `1.0.
 
 ## Unreleased
 
+### 0.1.0a4 release candidate
+
+- Bumped the package and example workspace compatibility version for the first PyPI candidate.
+- Synchronized current release documentation and version consistency checks.
+- Recorded the configured Trusted Publisher while retaining explicit approval before publication.
+
 ## [0.1.0a3] - 2026-07-21
 
 ### 0.1.0a3 release candidate

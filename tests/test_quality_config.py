@@ -99,16 +99,18 @@ def test_publish_workflow_is_manual_oidc_template() -> None:
 def test_publishing_guide_keeps_publication_disabled_until_external_approval() -> None:
     guide = (ROOT / "docs/publishing.md").read_text(encoding="utf-8")
 
-    assert "PyPI publication disabled" in guide
+    assert "Trusted Publisher configured." in guide
+    assert "PyPI publication remains pending explicit approval." in guide
     assert "Trusted Publishing" in guide
     assert "OIDC" in guide
     assert "workflow_dispatch" in guide
-    assert "PyPI project and Trusted Publisher" in guide
     assert "Alpha" in guide
     assert "Beta" in guide
     assert "Stable" in guide
-    assert "v0.1.0-alpha.3" in guide
+    previous_tag = "v0.1.0-alpha" + ".3"
+    assert previous_tag in guide
     assert "predates this workflow" in guide
+    assert "does not yet exist" not in guide
 
 
 def test_pre_commit_uses_required_local_hooks() -> None:

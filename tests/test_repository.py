@@ -22,7 +22,7 @@ def manifest_data() -> dict[str, object]:
         "kind": "workspace",
         "schema_version": "1.0",
         "name": "test-workspace",
-        "framework": {"minimum_version": "0.1.0a3"},
+        "framework": {"minimum_version": "0.1.0a4"},
         "defaults": {"export_directory": "exports"},
     }
 

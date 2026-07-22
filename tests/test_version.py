@@ -12,7 +12,7 @@ ROOT = Path(__file__).parents[1]
 def test_version_uses_hatch_file_source() -> None:
     pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
 
-    assert __version__ == "0.1.0a3"
+    assert __version__ == "0.1.0a4"
     assert pyproject["project"]["dynamic"] == ["version"]
     assert "version" not in pyproject["project"]
     assert pyproject["tool"]["hatch"]["version"]["path"] == "src/home_framework/__init__.py"
@@ -37,15 +37,15 @@ def test_release_documents_and_example_use_current_version() -> None:
     assert f"### {__version__} release candidate" in changelog
     assert f"## {__version__} -" not in changelog
     assert "Pre-release / not yet published" in readme
-    assert "v0.1.0-alpha.3" in checklist
-    previous_tag = "v0.1.0-alpha" + ".2"
+    assert "v0.1.0-alpha.4" in checklist
+    previous_tag = "v0.1.0-alpha" + ".3"
     assert previous_tag not in checklist
     assert example["framework"]["minimum_version"] == __version__
 
 
 def test_previous_version_only_appears_in_historical_records() -> None:
-    previous_version = "0.1.0" + "a2"
-    previous_tag = "v0.1.0-alpha" + ".2"
+    previous_version = "0.1.0" + "a3"
+    previous_tag = "v0.1.0-alpha" + ".3"
     current_paths = [
         ROOT / "README.md",
         ROOT / "pyproject.toml",
