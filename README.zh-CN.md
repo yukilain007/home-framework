@@ -179,6 +179,23 @@ HOME 的设计是 local-first。用户拥有自己的数据，并决定哪些内
 
 HOME 不承诺绝对安全或永久保存。它提供的是更清晰的边界、更少的误用机会，以及更容易审计的上下文流动方式。
 
+## 几乎没有技术背景？
+
+你不需要先学 Python、YAML 或终端命令。
+
+把下面这份指南交给一个具备电脑、文件和终端操作权限的 AI，
+它可以代你完成环境检查、安装、初始化和第一份 Context Handoff。
+
+你只需要保留三次决定权：
+
+1. HOME 工作区放在哪里；
+2. 哪些信息准确，以及哪些内容可以共享；
+3. 是否批准最终 Context Handoff。
+
+[查看零技术用户安装与使用指南](docs/guides/zero-tech-user-guide.zh-CN.md)
+
+![HOME 零技术用户双角色使用流程](docs/assets/zero-tech-user-flow.zh-CN.svg)
+
 ## Quickstart
 
 这是中文 Quickstart，面向开发者，但尽量保持易读。所有带 `--as-of` 的示例都使用固定日期，是为了让构建结果和诊断结果可复现；实际使用时可以换成你要审查的上下文日期。
