@@ -2,24 +2,46 @@
 
 **Your context belongs to you.**
 
-## Before HOME
+## Switching AI shouldn't mean starting from zero.
 
-When a project moves between chats, models, or tools, people often have to repeat background,
-restate decisions, and guess what should be shared with the next AI workflow.
+### Before HOME
 
-## After HOME
+```text
+ChatGPT  → new chat   → explain the context again
+Claude   → new thread → repeat the context
+Codex    → new task   → rebuild project state
+```
+
+### After HOME
+
+```text
+Your reviewed context
+          ↓
+       Compile
+          ↓
+   Context Handoff
+          ↓
+Compatible AI tools
+```
+
+Works with AI tools that can accept text or files.
 
 HOME Framework is a local-first Python toolkit that validates reviewed authority files and
 compiles deterministic, purpose-scoped context handoffs. It gives an AI the information needed for
 one task, while keeping unreviewed, expired, or out-of-scope material out of that handoff.
 
-## Clear boundaries
+### Clear boundaries
+
+- HOME does not automatically read your chat history.
+- Suggestions and candidates are not treated as approved facts.
+- Context continuity does not imply continuous identity or consciousness.
+
+> AI can suggest what matters. Only you decide what represents you.
 
 English | [简体中文](README.zh-CN.md)
 
-HOME Framework is **not an automatic memory system**. It does not preserve or prove continuous AI
-consciousness, infer consent, read chat history, or send workspace content to third-party
-services.
+HOME Framework is **not an automatic memory system**. It does not infer consent or send workspace
+content to third-party services.
 
 > **Status — Pre-release / published to PyPI.** The current package version is `0.1.0a4`.
 > File formats and command output may change before the first stable release.
@@ -39,7 +61,9 @@ python -m pip install home-framework==0.1.0a4
 
 home init example-home --name example-home
 home validate example-home
-home build example-home --handoff project.execution --as-of 2026-07-20
+home build example-home \
+  --handoff project.execution \
+  --as-of 2026-07-20
 home doctor example-home --as-of 2026-07-20
 ```
 
