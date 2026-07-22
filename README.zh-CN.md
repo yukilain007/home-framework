@@ -1,135 +1,255 @@
 # HOME Framework
 
-HOME Framework 是一个 local-first 的 Python 工具包，用来验证经过人工审阅的权威文件，并生成确定性的、面向特定用途的上下文交接文档。
+让 AI 延续你的工作，而不是每次重新认识你。
 
-> 当前版本：`0.1.0a4`
->
-> 这是 alpha 预发布版本，已发布到 PyPI。文件格式和命令输出在稳定版之前仍可能变化。
+[English](README.md) | 简体中文
 
-HOME Framework 不是自动记忆系统。它不会证明 AI 具有连续意识，不会推断同意，不会读取聊天历史，也不会把工作区内容发送给第三方服务。
+你有没有遇到过：
 
-[English README](README.md)
+- 换一个 AI 对话窗口，它突然“不认识你”？
+- 昨天已经解释过的项目背景，今天又要重新讲一遍？
+- 在 ChatGPT、Claude、本地模型之间切换，每次都像从零开始？
+- 想让 AI 更了解你的习惯，却不想把所有私人信息交出去？
+- AI 看起来“知道很多”，但你不知道它依据了哪些信息？
 
-## 核心概念
+AI 很会回答问题。
 
-- **权威文件**：由人审阅和控制的 YAML 文件，是构建上下文的唯一输入。
-- **核心文档**：稳定、长期有效的指导信息。
-- **当前文档**：带有效期的近期上下文。
-- **候选内容**：未批准的提议；会被验证，但不会把候选记忆编译进上下文。
-- **交接文件**：为某个具体目的选择 ID、范围和允许的敏感级别。
-- **导出文件**：可重复生成的 Markdown 投影，不应手工维护。
+但在新的窗口、模型或工具里，它通常不知道你之前已经确认过什么。
 
-## 安装
+HOME Framework 解决的是 AI 协作中的“上下文延续（context continuity）”问题。
 
-HOME Framework 需要 Python 3.11 或更新版本。
+无论你使用 ChatGPT、Claude、本地模型，还是 AI Agent，HOME 都帮助 AI 在用户允许的范围内继续理解：
 
-安装已发布的 alpha 包：
+- 正在做什么；
+- 当前目标是什么；
+- 哪些信息已经确认；
+- 哪些信息不应该共享。
+
+它不是让 AI 获取你的全部过去，而是让 AI 获得此刻应该知道的部分。
+
+## 换一个窗口，不换一个你
+
+假设你正在长期使用 AI 完成一个项目。
+
+第一次，你告诉 AI：
+
+- 项目背景；
+- 工作方式；
+- 当前状态；
+- 已确认方案。
+
+之后，你换了一个新的 AI 窗口。
+
+传统方式通常是：
+
+- 重新复制背景；
+- 重新解释需求；
+- 重新纠正 AI；
+- 再等它慢慢进入状态。
+
+HOME 的方式是：
+
+```text
+你的上下文
+  ↓
+HOME Workspace
+  ↓
+生成当前任务需要的 Context Handoff
+  ↓
+新的 AI 继续工作
+```
+
+这不是让 AI 拿到你的全部过去，而是让它拿到当前任务需要、并且经过你允许的那一部分上下文。
+
+## 上下文延续，不等于 AI 记忆
+
+很多 AI 产品关注的是：
+
+> 让 AI 记住用户。
+
+HOME 关注的是另一个问题：
+
+当用户：
+
+- 换窗口；
+- 换模型；
+- 换工具；
+- 进入新的工作阶段；
+
+如何让 AI 获得正确背景。
+
+真正重要的是，AI 当前使用的信息是否：
+
+- 准确；
+- 被确认；
+- 适合当前任务；
+- 没有泄露不必要的信息。
+
+上下文延续不是 AI 记忆。它不是让模型自动保存你的状态，也不是把聊天历史全部塞进下一次对话。它更像一次有边界的工作交接：用户决定哪些内容可以延续，哪些内容需要保持私密，哪些内容只适合当前任务。
+
+## HOME 是什么
+
+HOME 不是 AI 模型，也不是简单的聊天记录存储。
+
+HOME 不是 AI Memory。它不让模型自己决定什么应该长期保留，也不把聊天历史自动变成“记忆”。
+
+HOME 是用户控制的 AI context infrastructure，也就是用户控制的 AI 上下文基础设施。
+
+它管理：
+
+- 哪些信息可以延续；
+- 哪些信息只属于当前任务；
+- 哪些信息需要保持私密；
+- 哪些信息经过确认后可以成为稳定上下文。
+
+换句话说，HOME 不是替你保存所有过去，而是帮你准备“这一次 AI 真正需要知道什么”。
+
+## 为什么需要用户控制
+
+AI 可以帮助整理信息。
+
+但 AI 不应该单方面决定什么代表用户长期状态。
+
+如果上下文完全交给模型自动管理，用户很难知道：
+
+- 哪些信息被带进了下一次对话；
+- 哪些信息已经过期却仍在影响回答；
+- 哪些只是模型推测，而不是用户确认过的事实；
+- 哪些私人内容其实不该被共享给某个工具或某次任务。
+
+HOME 把这部分控制权放回用户手里。它要求重要信息经过人工确认，要求候选信息保持隔离，也要求 context handoff 可以被检查和重建。
+
+这对 AI Agent、知识系统、长期项目助手和多模型工作流尤其重要：系统越复杂，越需要明确“AI 此刻到底依据了什么”。
+
+## 工作方式
+
+```text
+你的信息
+  ↓
+HOME Workspace
+  ↓
+core / current / candidate
+  ↓
+Context Handoff
+  ↓
+AI
+```
+
+`core` 是稳定、已确认的信息，例如项目原则、已确认的偏好、较长期有效的背景。它不是模型自动保存的个人记忆，而是经过审阅后当前仍适合复用的上下文。
+
+`current` 是当前阶段有效的信息，例如最近正在做什么、某个任务的阶段、短期有效的项目状态。
+
+`candidate` 是等待确认的信息。它可以被记录和检查，但不会把候选信息编译进上下文，也不会自动成为事实。
+
+`Context Handoff` 是最终给 AI 的上下文交接文件。它只包含被选择、被允许、适合当前目的的信息。
+
+## 场景说明
+
+一个用户可能同时使用：
+
+- ChatGPT 写作；
+- Claude 分析资料；
+- 本地模型处理私人内容。
+
+HOME 不替换这些 AI，也不要求用户只使用一个工具。
+
+它负责帮助不同 AI 获取合适的上下文：写作工具只需要文章背景，资料分析工具只需要项目材料，本地模型可以处理你选择保留在本地的敏感内容。不同工具拿到不同范围的信息，但这些信息来自同一套由用户控制、可以审阅的上下文结构。
+
+如果你在开发 AI Agent、个人知识系统、团队知识库或长期项目助手，HOME 可以作为 context handoff 的底层约束：它不替你选择模型，而是帮助你控制模型拿到的背景。
+
+## HOME 不是什么
+
+HOME 不是自动上传全部聊天记录的工具。
+
+HOME 不是让 AI 自己决定什么应该长期保留。
+
+HOME 不是替代 ChatGPT、Claude 或本地模型的模型层。
+
+HOME 也不是面向普通消费者的一站式聊天应用。它更像是给认真使用 AI 的人准备的上下文工作台：透明、可审计、由用户控制。
+
+## 隐私理念
+
+HOME 的设计是 local-first。用户拥有自己的数据，并决定哪些内容进入上下文。
+
+默认原则是：
+
+- 明确授权：重要信息进入稳定上下文前需要人工确认；
+- 最小必要上下文：只给 AI 当前任务需要的内容；
+- 人工确认变化：重要状态变化不应由模型自动推断；
+- 候选隔离：未批准的候选信息可以等待审阅，但不能当作事实调用；
+- 可验证输出：生成的 handoff 可以被用户查看、复核和重建。
+
+HOME 不承诺绝对安全或永久保存。它提供的是更清晰的边界、更少的误用机会，以及更容易审计的上下文流动方式。
+
+## Quickstart
+
+这是中文 Quickstart，面向开发者，但尽量保持易读。所有带 `--as-of` 的示例都使用固定日期，是为了让构建结果和诊断结果可复现；实际使用时可以换成你要审查的上下文日期。
+
+HOME Framework 需要 Python 3.11 或更新版本。当前已发布的 alpha 包可以这样安装：
 
 ```bash
 python -m pip install home-framework==0.1.0a4
 ```
 
-如果要参与开发，可以从本地仓库安装：
+查看 CLI：
 
 ```bash
-python -m venv .venv
-. .venv/bin/activate
-python -m pip install -e ".[dev]"
+home --help
 ```
 
-## 中文 Quickstart
-
-创建一个不初始化 Git、也不创建远程仓库的示例工作区：
+创建一个示例工作区：
 
 ```bash
 home init example-home --name example-home
 ```
 
-生成的工作区包含两个公开的虚构权威文档和一个交接文件，因此可以立即验证和构建。对一个已经有效的工作区重复执行 `home init` 是安全的，不会覆盖文件；非空且未知的目录会被拒绝。
-
-验证仓库自带的虚构示例：
+验证刚创建的示例工作区：
 
 ```bash
-home validate examples/fictional-assistant
+home validate example-home
 ```
 
 按固定日期构建上下文：
 
 ```bash
-home build examples/fictional-assistant \
+home build example-home \
   --handoff project.execution \
   --as-of 2026-07-20
 ```
 
-默认输出位置是：
-
-```text
-examples/fictional-assistant/exports/project.execution.md
-```
-
-在相同权威文件、交接文件和上下文日期下重复构建，会得到相同指纹。真实生成时间只是展示信息，不参与指纹计算。
-
-检查生命周期、导出、敏感信息和 Git 卫生状态：
+检查生命周期、导出、敏感信息和 Git 状态：
 
 ```bash
-home doctor examples/fictional-assistant --as-of 2026-07-20
-home doctor examples/fictional-assistant --as-of 2026-07-20 --strict
+home doctor example-home --as-of 2026-07-20
+home doctor example-home --as-of 2026-07-20 --strict
 ```
 
-不传 `--as-of` 时，build 和 doctor 会使用本地日期。测试和可复现自动化应始终显式传入日期。
+这些命令来自当前 CLI help：
 
-## 工作区结构
+- `home --help`
+- `home init --help`
+- `home validate --help`
+- `home build --help`
+- `home doctor --help`
 
-```text
-home.yaml           版本化工作区清单
-sources/core/       稳定权威文档
-sources/current/    有有效期的当前权威文档
-candidates/         不会进入编译上下文的候选内容
-handoffs/           已审阅的选择声明
-exports/            可删除、可重建的 Markdown 导出
-```
+## 当前状态
 
-`home.yaml` 保持很小：
+HOME Framework 仍处于 alpha prerelease 阶段。
 
-```yaml
-kind: workspace
-schema_version: "1.0"
-name: example-home
-framework:
-  minimum_version: 0.1.0a4
-defaults:
-  export_directory: exports
-```
+`home-framework 0.1.0a4` 已通过 GitHub Actions OIDC Trusted Publishing 发布到 PyPI。
 
-导出目录必须是安全的相对路径。绝对路径、`..`、符号链接逃逸和指向工作区外部的自定义输出路径都会被拒绝。
+接口、schema 和命令输出仍可能变化。请不要把当前 alpha 版本当作稳定协议使用。
 
-## 隐私边界
+## Developer Documentation
 
-- CLI 只读取操作者显式提供的工作区路径。
-- 未选择上下文时，默认不选择任何内容。
-- 交接文件默认只允许 `public` 内容；`private` 必须显式列出。
-- `secret` 内容不能导出，即使绕过验证也不允许。
-- 候选内容永远不会进入编译上下文。
-- 本仓库只包含虚构示例数据。
-- 生成的 `exports/*.md` 默认被 Git 忽略，可以删除后重建。
+更技术化的开发者文档在这里：
 
-## 开发检查
+- [English README](README.md)
+- [Architecture](docs/architecture.md)
+- [Privacy model](docs/privacy-model.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
 
-```bash
-python scripts/check.py
-pre-commit run --all-files
-```
-
-`scripts/check.py` 会运行测试、schema drift 检查、Ruff、mypy、虚构示例验证、重复构建指纹检查和敏感信息扫描。
-
-## 当前限制
-
-- 只处理本地文件，没有数据库或云同步。
-- 一次 build 只选择一个交接文件和一个上下文日期。
-- 不会自动批准候选内容，也不会自动修改权威文件。
-- Markdown 是当前唯一的渲染格式。
-- `1.0` 是当前唯一接受的 schema 协议版本。
-
-## 许可证
+## License
 
 Apache-2.0。详见 [LICENSE](LICENSE)。
