@@ -91,6 +91,8 @@ HOME 关注的是另一个问题：
 
 HOME 不是 AI 模型，也不是简单的聊天记录存储。
 
+HOME 不是自动记忆系统。
+
 HOME 不是 AI Memory。它不让模型自己决定什么应该长期保留，也不把聊天历史自动变成“记忆”。
 
 HOME 是用户控制的 AI context infrastructure，也就是用户控制的 AI 上下文基础设施。
@@ -140,6 +142,8 @@ AI
 `current` 是当前阶段有效的信息，例如最近正在做什么、某个任务的阶段、短期有效的项目状态。
 
 `candidate` 是等待确认的信息。它可以被记录和检查，但不会把候选信息编译进上下文，也不会自动成为事实。
+
+如果沿用一些 AI 产品里的旧说法，也可以理解为：不会把候选记忆编译进上下文。这里的“候选记忆”不是 HOME 的推荐术语，HOME 更准确地称它为“候选信息”。
 
 `Context Handoff` 是最终给 AI 的上下文交接文件。它只包含被选择、被允许、适合当前目的的信息。
 
@@ -249,6 +253,16 @@ HOME Framework 仍处于 alpha prerelease 阶段。
 - [Privacy model](docs/privacy-model.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security](SECURITY.md)
+
+如果你正在阅读源码仓库，也可以直接验证内置的虚构示例：
+
+```bash
+home validate examples/fictional-assistant
+home build examples/fictional-assistant \
+  --handoff project.execution \
+  --as-of 2026-07-20
+home doctor examples/fictional-assistant --as-of 2026-07-20
+```
 
 ## License
 
