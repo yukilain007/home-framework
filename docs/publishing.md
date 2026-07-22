@@ -1,8 +1,9 @@
 # Publishing HOME Framework
 
-> **Status: Trusted Publisher configured. PyPI publication remains pending explicit approval.**
-> No distribution has been uploaded, and neither this document nor the workflow grants approval
-> to publish.
+> **Status: Trusted Publisher configured. Version `0.1.0a4` has been published to PyPI through Trusted Publishing.**
+>
+> Future PyPI publications remain disabled until explicit approval. Neither this document nor the
+> workflow grants approval for another upload.
 
 ## Trusted Publishing
 
@@ -19,8 +20,7 @@ run this publishing path. Only a future release tag whose commit contains this w
 
 The PyPI-side Trusted Publisher is configured for this repository, workflow, and `pypi`
 environment. That configuration does not authorize a workflow run or package upload. The `pypi`
-GitHub Environment remains the approval boundary and its protection rules must be verified before
-the first publication.
+GitHub Environment remains the approval boundary for future publications.
 
 ## Approval flow
 
@@ -28,7 +28,7 @@ the first publication.
 2. Verify that the configured PyPI Trusted Publisher still matches this repository, workflow, and
    `pypi` environment.
 3. Configure or verify GitHub Environment reviewers and protection rules.
-4. Obtain separate approval for the first PyPI publication.
+4. Obtain separate approval for the PyPI publication.
 5. Manually run the publish workflow with the approved release tag selected as the Git ref.
 6. Review the environment approval request, then verify the published files and metadata.
 

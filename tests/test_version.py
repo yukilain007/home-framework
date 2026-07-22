@@ -38,7 +38,8 @@ def test_release_documents_and_example_use_current_version() -> None:
     assert f"## [{__version__}] - 2026-07-22" in changelog
     unreleased = changelog.split("## Unreleased", maxsplit=1)[1].split("## [", maxsplit=1)[0]
     assert __version__ not in unreleased
-    assert "Pre-release / not yet published" in readme
+    assert "Pre-release / published to PyPI" in readme
+    assert "pip install home-framework==0.1.0a4" in readme
     assert "v0.1.0-alpha.4" in checklist
     previous_tag = "v0.1.0-alpha" + ".3"
     assert previous_tag not in checklist
@@ -66,6 +67,20 @@ def test_previous_version_only_appears_in_historical_records() -> None:
         content = path.read_text(encoding="utf-8")
         assert previous_version not in content, path
         assert previous_tag not in content, path
+
+
+def test_chinese_readme_provides_current_quickstart() -> None:
+    readme_zh = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+
+    assert "HOME Framework" in readme_zh
+    assert "中文 Quickstart" in readme_zh
+    assert "pip install home-framework==0.1.0a4" in readme_zh
+    assert "home init example-home --name example-home" in readme_zh
+    assert "home validate examples/fictional-assistant" in readme_zh
+    assert "home build examples/fictional-assistant" in readme_zh
+    assert "home doctor examples/fictional-assistant --as-of 2026-07-20" in readme_zh
+    assert "不是自动记忆系统" in readme_zh
+    assert "不会把候选记忆编译进上下文" in readme_zh
 
 
 def test_public_documentation_has_no_local_links_or_agent_instructions() -> None:
