@@ -8,7 +8,7 @@ compiles deterministic, purpose-scoped context handoffs.
 > This project is currently in alpha development; file formats and command output may change
 > before the first stable release.
 
-中文用户可以阅读 [中文 Quickstart](README.zh-CN.md)。
+English | [简体中文](README.zh-CN.md)
 
 HOME Framework is **not an automatic memory system**. It does not preserve or prove continuous AI
 consciousness, infer consent, read chat history, or send workspace content to third-party
@@ -79,30 +79,30 @@ The generated workspace contains two public fictional authority documents and on
 can validate and build immediately. Repeating `home init` on a valid workspace is safe and does
 not overwrite files. A non-empty unknown directory is refused.
 
-Validate the bundled fictional repository:
+Validate the generated example workspace:
 
 ```bash
-home validate examples/fictional-assistant
+home validate example-home
 ```
 
 Build a context for a fixed date:
 
 ```bash
-home build examples/fictional-assistant \
+home build example-home \
   --handoff project.execution \
   --as-of 2026-07-20
 ```
 
 The default output is
-`examples/fictional-assistant/exports/project.execution.md`. Repeating a build with the same
+`example-home/exports/project.execution.md`. Repeating a build with the same
 authority files, handoff, and context date produces the same fingerprint. The real generation
 timestamp is display metadata and is not part of the fingerprint.
 
 Inspect lifecycle, export, security, and Git hygiene for the same date:
 
 ```bash
-home doctor examples/fictional-assistant --as-of 2026-07-20
-home doctor examples/fictional-assistant --as-of 2026-07-20 --strict
+home doctor example-home --as-of 2026-07-20
+home doctor example-home --as-of 2026-07-20 --strict
 ```
 
 Without `--as-of`, build and doctor use the local date. Tests and reproducible automation should
