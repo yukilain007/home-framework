@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="demo-title demo-desc">
+  <title id="demo-title">HOME Framework context handoff flow</title>
+  <desc id="demo-desc">A dark technical diagram. The primary flow moves reviewed local context through deterministic compilation into a purpose-scoped Context Handoff for compatible AI tools. A secondary approval flow shows suggestion, candidate, human review, approved authority, and user-approved handoff. Three boundaries explain that candidates are not approved facts, HOME does not read chat history automatically, and the user decides what leaves the local workspace.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#7C8A9A"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#D6A64A"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#54B889"/>
+    </marker>
+    <style>
+      .bg { fill: #0B0F14; }
+      .panel { fill: #111922; stroke: #2B3948; stroke-width: 2; }
+      .panel-candidate { fill: #1A1710; stroke: #D6A64A; stroke-width: 2; stroke-dasharray: 8 6; }
+      .panel-approved { fill: #102019; stroke: #54B889; stroke-width: 2; }
+      .label { fill: #EAF0F6; font: 600 25px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .small { fill: #AEBBC8; font: 400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .meta { fill: #7890A5; font: 600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 1.8px; }
+      .title { fill: #F4F7FA; font: 700 38px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .subtitle { fill: #AEBBC8; font: 400 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .boundary { fill: #0E151D; stroke: #2B3948; stroke-width: 1.5; }
+      .boundary-text { fill: #D9E2EB; font: 500 19px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .amber { fill: #E3BA65; }
+      .green { fill: #6DCCA0; }
+      .line { stroke: #7C8A9A; stroke-width: 3; marker-end: url(#arrow); }
+      .line-amber { stroke: #D6A64A; stroke-width: 3; stroke-dasharray: 9 7; marker-end: url(#arrow-amber); }
+      .line-green { stroke: #54B889; stroke-width: 3; marker-end: url(#arrow-green); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="900"/>
+  <text class="meta" x="80" y="68">HOME FRAMEWORK · LOCAL CONTEXT HANDOFF</text>
+  <text class="title" x="80" y="122">A reviewed handoff, not automatic memory.</text>
+  <text class="subtitle" x="80" y="158">Only purpose-scoped, human-reviewed context is included in the handoff.</text>
+  <text class="subtitle" x="80" y="187">You decide whether to provide it to a compatible tool.</text>
+
+  <text class="meta" x="80" y="220">PRIMARY FLOW</text>
+  <rect class="panel" x="80" y="246" width="260" height="142" rx="14"/>
+  <text class="label" x="112" y="304" aria-label="Reviewed local context">Reviewed local</text>
+  <text class="label" x="112" y="337">context</text>
+  <text class="small" x="112" y="369" font-size="16">Human-reviewed authority files</text>
+
+  <line class="line" x1="360" y1="317" x2="415" y2="317"/>
+  <rect class="panel" x="435" y="246" width="240" height="142" rx="14"/>
+  <text class="label" x="467" y="316" aria-label="Deterministic compile">Deterministic</text>
+  <text class="label" x="467" y="349">compile</text>
+  <text class="small" x="467" y="369" font-size="16">Same inputs, same output</text>
+
+  <line class="line" x1="695" y1="317" x2="750" y2="317"/>
+  <rect class="panel-approved" x="770" y="246" width="360" height="142" rx="14"/>
+  <text class="label" x="802" y="304" aria-label="Purpose-scoped Context Handoff">Purpose-scoped</text>
+  <text class="label" x="802" y="337">Context Handoff</text>
+  <text class="small" x="802" y="369">Markdown scoped to one task</text>
+
+  <line class="line" x1="1150" y1="317" x2="1205" y2="317"/>
+  <rect class="panel" x="1225" y="246" width="295" height="142" rx="14"/>
+  <text class="label" x="1257" y="304" aria-label="Compatible AI tools">Compatible</text>
+  <text class="label" x="1257" y="337">AI tools</text>
+  <text class="small" x="1257" y="369">Shared only by the user</text>
+
+  <text class="meta" x="80" y="468">APPROVAL PATH · CANDIDATES STAY OUT UNTIL HUMAN APPROVAL</text>
+  <rect class="panel" x="80" y="494" width="210" height="118" rx="12"/>
+  <text class="label" x="112" y="558">Suggestion</text>
+  <text class="small" x="112" y="588">Possible context</text>
+  <line class="line-amber" x1="310" y1="553" x2="370" y2="553"/>
+
+  <rect class="panel-candidate" x="390" y="494" width="210" height="118" rx="12"/>
+  <text class="label amber" x="422" y="558">Candidate</text>
+  <text class="small" x="422" y="588">Not compiler input</text>
+  <line class="line-amber" x1="620" y1="553" x2="680" y2="553"/>
+
+  <rect class="panel" x="700" y="494" width="210" height="118" rx="12"/>
+  <text class="label" x="732" y="558">Human review</text>
+  <text class="small" x="732" y="588">Accept, reject, revise</text>
+  <line class="line-green" x1="930" y1="553" x2="990" y2="553"/>
+
+  <rect class="panel-approved" x="1010" y="494" width="220" height="118" rx="12"/>
+  <text class="label green" x="1042" y="550" aria-label="Approved authority">Approved</text>
+  <text class="label green" x="1042" y="580">authority</text>
+  <line class="line-green" x1="1250" y1="553" x2="1310" y2="553"/>
+
+  <rect class="panel-approved" x="1330" y="494" width="190" height="118" rx="12"/>
+  <text class="label green" x="1362" y="550" aria-label="User-approved Handoff">User-approved</text>
+  <text class="label green" x="1362" y="580">Handoff</text>
+
+  <rect class="boundary" x="80" y="704" width="450" height="110" rx="12"/>
+  <text class="boundary-text" x="112" y="752">Candidates are not approved facts.</text>
+  <text class="small" x="112" y="783">They do not enter the handoff automatically.</text>
+
+  <rect class="boundary" x="575" y="704" width="450" height="110" rx="12"/>
+  <text class="boundary-text" x="607" y="752">HOME does not read chat history automatically.</text>
+  <text class="small" x="607" y="783">Only reviewed authority files are compiled.</text>
+
+  <rect class="boundary" x="1070" y="704" width="450" height="110" rx="12"/>
+  <text class="boundary-text" x="1102" y="752">The user decides what leaves the local workspace.</text>
+  <text class="small" x="1102" y="783">Review before sharing with an external tool.</text>
+</svg>
