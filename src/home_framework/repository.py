@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Yuki
+# SPDX-License-Identifier: Apache-2.0
+
 """Discover, parse, and cross-validate HOME authority repositories."""
 
 from __future__ import annotations

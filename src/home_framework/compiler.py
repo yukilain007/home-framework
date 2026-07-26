@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Yuki
+# SPDX-License-Identifier: Apache-2.0
+
 """Deterministically select reviewed authority documents for a handoff."""
 
 from __future__ import annotations

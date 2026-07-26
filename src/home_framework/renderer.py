@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Yuki
+# SPDX-License-Identifier: Apache-2.0
+
 """Render compiled contexts without performing selection or validation."""
 
 from __future__ import annotations

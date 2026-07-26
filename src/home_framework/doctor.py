@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Yuki
+# SPDX-License-Identifier: Apache-2.0
+
 """Aggregate workspace, lifecycle, export, security, and Git diagnostics."""
 
 from __future__ import annotations

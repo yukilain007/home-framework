@@ -25,6 +25,11 @@ def main() -> int:
     run_command("mypy", [python, "-m", "mypy", "src", "scripts"], cwd=ROOT)
     run_command("pytest", [python, "-m", "pytest"], cwd=ROOT)
     run_command(
+        "distribution provenance",
+        [python, str(ROOT / "scripts/check_distribution_provenance.py")],
+        cwd=ROOT,
+    )
+    run_command(
         "fictional example validate",
         [python, "-m", "home_framework.cli", "validate", str(EXAMPLE)],
         cwd=ROOT,

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Yuki
+# SPDX-License-Identifier: Apache-2.0
+
 """Safely create a small, fictional HOME Framework workspace."""
 
 from __future__ import annotations

@@ -268,5 +268,5 @@ outside the `0.1.0a4` scope.
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE). The project owner should confirm the license before public
-release.
+Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE) for the license text and project source
+attribution.

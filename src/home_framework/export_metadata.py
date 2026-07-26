@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Yuki
+# SPDX-License-Identifier: Apache-2.0
+
 """Machine-readable export metadata and deterministic stale classification."""
 
 from __future__ import annotations

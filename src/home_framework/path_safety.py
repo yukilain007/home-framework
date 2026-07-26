@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Yuki
+# SPDX-License-Identifier: Apache-2.0
+
 """Lexical path checks shared by workspace readers and writers."""
 
 from __future__ import annotations

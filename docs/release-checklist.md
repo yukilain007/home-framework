@@ -52,3 +52,15 @@ release.
 - [x] Approve the Alpha.4 preparation implementation push
 - [ ] Confirm a future annotated tag points to the approved Alpha.4 commit
 - [ ] Approve any PyPI upload or GitHub Release as a separate action
+
+## Apache-2.0 provenance for future releases
+
+- [ ] Confirm `LICENSE`, `NOTICE`, `README.md`, and `pyproject.toml` consistently identify
+      Apache-2.0 and the official project source.
+- [ ] Confirm all tracked package source files retain complete SPDX copyright and license headers.
+- [ ] Confirm the built wheel and sdist contain the declared license files and Apache-2.0 metadata.
+- [ ] Verify a signed annotated tag before creating a GitHub Release or publishing an artifact.
+- [ ] Confirm the GitHub Release is immutable after publication.
+- [ ] Publish and record artifact attestations plus a verified SHA256 manifest.
+- [ ] After a stable release, record the Software Heritage archive URL or SWHID in its freeze
+      record.
