@@ -38,27 +38,42 @@ one task, while keeping unreviewed, expired, or out-of-scope material out of tha
 
 > AI can suggest what matters. Only you decide what represents you.
 
-English | [简体中文](README.zh-CN.md)
+English | [简体中文](https://github.com/yukilain007/home-framework/blob/main/README.zh-CN.md)
 
 HOME Framework is **not an automatic memory system**. It does not infer consent or send workspace
 content to third-party services.
 
-> **Status — Pre-release / published to PyPI.** The current package version is `0.1.0a4`.
+> **Alpha release.** The current version is `0.1.0a4` ([PyPI](https://pypi.org/project/home-framework/)).
 > File formats and command output may change before the first stable release.
 
 [![PyPI](https://img.shields.io/pypi/v/home-framework)](https://pypi.org/project/home-framework/)
 [![Python](https://img.shields.io/pypi/pyversions/home-framework)](https://pypi.org/project/home-framework/)
-[![License](https://img.shields.io/github/license/yukilain007/home-framework)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](https://github.com/yukilain007/home-framework/blob/main/LICENSE)
 [![CI](https://github.com/yukilain007/home-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/yukilain007/home-framework/actions/workflows/ci.yml)
+
+## Installation
+
+HOME Framework requires Python 3.11 or newer.
+
+```bash
+pip install home-framework
+```
+
+To work on the framework itself:
+
+```bash
+git clone https://github.com/yukilain007/home-framework
+cd home-framework
+python -m venv .venv
+. .venv/bin/activate
+python -m pip install -e ".[dev]"
+```
 
 ## Quickstart
 
-HOME requires Python 3.11 or newer. Install the published alpha package, then create and run a
-fully fictional example workspace:
+After installation, create and run a fully fictional example workspace:
 
 ```bash
-python -m pip install home-framework==0.1.0a4
-
 home init example-home --name example-home
 home validate example-home
 home build example-home \
@@ -68,16 +83,16 @@ home doctor example-home --as-of 2026-07-20
 ```
 
 The generated handoff is written to `example-home/exports/project.execution.md`. Start with the
-concepts below, or read the [Chinese zero-technical-background guide](docs/guides/zero-tech-user-guide.zh-CN.md)
+concepts below, or read the [Chinese zero-technical-background guide](https://github.com/yukilain007/home-framework/blob/main/docs/guides/zero-tech-user-guide.zh-CN.md)
 for an AI-assisted local setup with explicit user approvals.
 
 ## Developer Documentation
 
-- [Demo](docs/demo.md)
-- [FAQ](docs/faq.md)
-- [Architecture](docs/architecture.md)
-- [Privacy model](docs/privacy-model.md)
-- [Contributing](CONTRIBUTING.md)
+- [Demo](https://github.com/yukilain007/home-framework/blob/main/docs/demo.md)
+- [FAQ](https://github.com/yukilain007/home-framework/blob/main/docs/faq.md)
+- [Architecture](https://github.com/yukilain007/home-framework/blob/main/docs/architecture.md)
+- [Privacy model](https://github.com/yukilain007/home-framework/blob/main/docs/privacy-model.md)
+- [Contributing](https://github.com/yukilain007/home-framework/blob/main/CONTRIBUTING.md)
 
 ## What HOME produces
 
@@ -155,7 +170,8 @@ workspace manifest and authority YAML files
 - Doctor and the secret scanner stay inside the supplied workspace and never print matched secret
   values.
 
-See [the privacy model](docs/privacy-model.md) and [security policy](SECURITY.md).
+See [the privacy model](https://github.com/yukilain007/home-framework/blob/main/docs/privacy-model.md)
+and the [security policy](https://github.com/yukilain007/home-framework/blob/main/SECURITY.md).
 
 ## Workspace layout
 
@@ -237,15 +253,7 @@ This is a defense-in-depth aid, not a guarantee that a workspace contains no sen
 
 ## Development
 
-For local development from a checkout:
-
-```bash
-python -m venv .venv
-. .venv/bin/activate
-python -m pip install -e ".[dev]"
-```
-
-Then run the local quality checks:
+After installing from a checkout, run the local quality checks:
 
 ```bash
 python scripts/check.py
@@ -265,8 +273,6 @@ authority data, or modify schemas.
 - No automatic candidate approval or authority-file mutation.
 - Markdown is the only renderer.
 - Schema version `1.0` is the only accepted protocol version.
-- Version `0.1.0a4` is published on PyPI. Future PyPI publications still require explicit
-  approval and a separate protected publishing action.
 
 ## Roadmap
 
@@ -276,5 +282,4 @@ outside the `0.1.0a4` scope.
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE) for the license text and project source
-attribution.
+Licensed under the Apache License, Version 2.0. See [LICENSE](https://github.com/yukilain007/home-framework/blob/main/LICENSE).

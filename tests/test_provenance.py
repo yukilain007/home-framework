@@ -45,8 +45,8 @@ def test_public_provenance_records_agree_on_apache_identity() -> None:
         "Copyright (c) 2026 Yuki\n"
         "Official repository: https://github.com/yukilain007/home-framework\n"
     )
-    assert "Apache-2.0" in readme
-    assert "NOTICE" in readme
+    assert "Apache License, Version 2.0" in readme
+    assert "https://github.com/yukilain007/home-framework/blob/main/LICENSE" in readme
     assert "Apache-2.0 provenance" in checklist
     assert all(
         f"`{filename}`" in checklist

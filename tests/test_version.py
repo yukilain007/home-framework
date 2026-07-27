@@ -38,8 +38,8 @@ def test_release_documents_and_example_use_current_version() -> None:
     assert f"## [{__version__}] - 2026-07-22" in changelog
     unreleased = changelog.split("## Unreleased", maxsplit=1)[1].split("## [", maxsplit=1)[0]
     assert __version__ not in unreleased
-    assert "Pre-release / published to PyPI" in readme
-    assert "pip install home-framework==0.1.0a4" in readme
+    assert "Alpha release" in readme
+    assert "pip install home-framework" in readme
     assert "v0.1.0-alpha.4" in checklist
     previous_tag = "v0.1.0-alpha" + ".3"
     assert previous_tag not in checklist
