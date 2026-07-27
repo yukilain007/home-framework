@@ -263,9 +263,10 @@ home doctor example-home --as-of 2026-07-20 --strict
 
 ## 当前状态
 
-HOME Framework 仍处于 alpha prerelease 阶段。
+HOME Framework 仍处于 alpha prerelease 阶段。当前开发版本为 `home-framework 0.1.0a5`。
 
-`home-framework 0.1.0a4` 已通过 GitHub Actions OIDC Trusted Publishing 发布到 PyPI。
+最新已发布的 PyPI 版本为 `home-framework 0.1.0a4`，已通过 GitHub Actions OIDC Trusted
+Publishing 发布到 PyPI。
 
 接口、schema 和命令输出仍可能变化。请不要把当前 alpha 版本当作稳定协议使用。
 

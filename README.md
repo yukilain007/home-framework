@@ -43,7 +43,8 @@ English | [简体中文](https://github.com/yukilain007/home-framework/blob/main
 HOME Framework is **not an automatic memory system**. It does not infer consent or send workspace
 content to third-party services.
 
-> **Alpha release.** The current version is `0.1.0a4` ([PyPI](https://pypi.org/project/home-framework/)).
+> **Alpha development.** Current development version: `0.1.0a5`.
+> Latest published PyPI release: `0.1.0a4` ([PyPI](https://pypi.org/project/home-framework/)).
 > File formats and command output may change before the first stable release.
 
 [![PyPI](https://img.shields.io/pypi/v/home-framework)](https://pypi.org/project/home-framework/)
@@ -191,7 +192,7 @@ kind: workspace
 schema_version: "1.0"
 name: example-home
 framework:
-  minimum_version: 0.1.0a4
+  minimum_version: 0.1.0a5
 defaults:
   export_directory: exports
 ```
@@ -278,7 +279,7 @@ authority data, or modify schemas.
 
 Possible later increments include schema migration tooling, richer renderer plugins, explicit
 export garbage collection, and compatibility testing on additional Python versions. They are
-outside the `0.1.0a4` scope.
+outside the `0.1.0a5` scope.
 
 ## License
 
