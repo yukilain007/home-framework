@@ -71,6 +71,14 @@ The generated handoff is written to `example-home/exports/project.execution.md`.
 concepts below, or read the [Chinese zero-technical-background guide](docs/guides/zero-tech-user-guide.zh-CN.md)
 for an AI-assisted local setup with explicit user approvals.
 
+## Developer Documentation
+
+- [Demo](docs/demo.md)
+- [FAQ](docs/faq.md)
+- [Architecture](docs/architecture.md)
+- [Privacy model](docs/privacy-model.md)
+- [Contributing](CONTRIBUTING.md)
+
 ## What HOME produces
 
 HOME compiles reviewed local authority files into a readable, purpose-scoped Context Handoff.
