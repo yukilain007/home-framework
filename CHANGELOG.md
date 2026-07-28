@@ -6,6 +6,18 @@ The project follows Semantic Versioning. Prerelease APIs may change before `1.0.
 
 ## Unreleased
 
+## [0.1.0a5] - 2026-07-28
+
+### 0.1.0a5 release candidate
+
+- Added a full Simplified Chinese README with absolute documentation links.
+- Added the zero-technical-background user guide and the daily context management guide.
+- Added the developer FAQ and the context handoff demo walkthrough.
+- Hardened Apache-2.0 provenance with SPDX headers across tracked package sources and a
+  distribution provenance check.
+- Synchronized release-status and installation documentation without changing the existing
+  published artifact.
+
 ## [0.1.0a4] - 2026-07-22
 
 ### 0.1.0a4 release candidate

@@ -2,7 +2,7 @@
 
 让 AI 延续你的工作，而不是每次重新认识你。
 
-[English](README.md) | 简体中文
+[English](https://github.com/yukilain007/home-framework/blob/main/README.md) | 简体中文
 
 你有没有遇到过：
 
@@ -192,15 +192,15 @@ HOME 不承诺绝对安全或永久保存。它提供的是更清晰的边界、
 2. 哪些信息准确，以及哪些内容可以共享；
 3. 是否批准最终 Context Handoff。
 
-[查看零技术用户安装与使用指南](docs/guides/zero-tech-user-guide.zh-CN.md)
+[查看零技术用户安装与使用指南](https://github.com/yukilain007/home-framework/blob/main/docs/guides/zero-tech-user-guide.zh-CN.md)
 
-![HOME 零技术用户双角色使用流程](docs/assets/zero-tech-user-flow.zh-CN.svg)
+![HOME 零技术用户双角色使用流程](https://raw.githubusercontent.com/yukilain007/home-framework/main/docs/assets/zero-tech-user-flow.zh-CN.svg)
 
 已经完成安装并开始使用？
 
 继续阅读：
 
-[HOME 日常使用：如何保存、审核和更新你的 AI 上下文](docs/guides/daily-context-management.zh-CN.md)
+[HOME 日常使用：如何保存、审核和更新你的 AI 上下文](https://github.com/yukilain007/home-framework/blob/main/docs/guides/daily-context-management.zh-CN.md)
 
 这份指南会帮助你判断：
 
@@ -214,7 +214,7 @@ HOME 不承诺绝对安全或永久保存。它提供的是更清晰的边界、
 
 这是中文 Quickstart，面向开发者，但尽量保持易读。所有带 `--as-of` 的示例都使用固定日期，是为了让构建结果和诊断结果可复现；实际使用时可以换成你要审查的上下文日期。
 
-HOME Framework 需要 Python 3.11 或更新版本。当前已发布的 alpha 包可以这样安装：
+HOME Framework 需要 Python 3.11 或更新版本。安装最新已发布的 alpha 包：
 
 ```bash
 python -m pip install home-framework==0.1.0a4
@@ -274,11 +274,11 @@ Publishing 发布到 PyPI。
 
 更技术化的开发者文档在这里：
 
-- [English README](README.md)
-- [Architecture](docs/architecture.md)
-- [Privacy model](docs/privacy-model.md)
-- [Contributing](CONTRIBUTING.md)
-- [Security](SECURITY.md)
+- [English README](https://github.com/yukilain007/home-framework/blob/main/README.md)
+- [Architecture](https://github.com/yukilain007/home-framework/blob/main/docs/architecture.md)
+- [Privacy model](https://github.com/yukilain007/home-framework/blob/main/docs/privacy-model.md)
+- [Contributing](https://github.com/yukilain007/home-framework/blob/main/CONTRIBUTING.md)
+- [Security](https://github.com/yukilain007/home-framework/blob/main/SECURITY.md)
 
 如果你正在阅读源码仓库，也可以直接验证内置的虚构示例：
 
@@ -292,4 +292,4 @@ home doctor examples/fictional-assistant --as-of 2026-07-20
 
 ## License
 
-Apache-2.0。详见 [LICENSE](LICENSE)。
+Apache-2.0。详见 [LICENSE](https://github.com/yukilain007/home-framework/blob/main/LICENSE)。

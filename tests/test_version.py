@@ -1,3 +1,4 @@
+import re
 import tomllib
 from pathlib import Path
 
@@ -35,14 +36,15 @@ def test_development_version_and_example_stay_distinct_from_frozen_release_recor
     )
 
     assert "## Unreleased" in changelog
+    assert "## [0.1.0a5] - 2026-07-28" in changelog
     assert "## [0.1.0a4] - 2026-07-22" in changelog
     unreleased = changelog.split("## Unreleased", maxsplit=1)[1].split("## [", maxsplit=1)[0]
     assert __version__ not in unreleased
     assert "Current development version: `0.1.0a5`" in readme
     assert "Latest published PyPI release: `0.1.0a4`" in readme
     assert "pip install home-framework" in readme
-    assert "v0.1.0-alpha.4" in checklist
-    previous_tag = "v0.1.0-alpha" + ".3"
+    assert "v0.1.0-alpha.5" in checklist
+    previous_tag = "v0.1.0-alpha" + ".4"
     assert previous_tag not in checklist
     assert example["framework"]["minimum_version"] == __version__
     assert freeze_path.exists()
@@ -90,6 +92,7 @@ def test_public_documentation_has_no_local_links_or_agent_instructions() -> None
     internal_instruction = "REQUIRED " + "SUB-SKILL"
     paths = [
         ROOT / "README.md",
+        ROOT / "README.zh-CN.md",
         ROOT / "SECURITY.md",
         ROOT / "CONTRIBUTING.md",
         ROOT / "CHANGELOG.md",
@@ -101,3 +104,24 @@ def test_public_documentation_has_no_local_links_or_agent_instructions() -> None
         assert local_user_prefix not in content, path
         assert local_file_scheme not in content, path
         assert internal_instruction not in content, path
+
+
+def test_every_readme_translation_uses_absolute_links() -> None:
+    """Both READMEs are rendered outside GitHub (PyPI, mirrors, scrapers).
+
+    Relative links resolve to 404 there, so every translation must use absolute URLs.
+    """
+    relative_link = re.compile(r"]\((?!https?://|#|mailto:)([^)]*)\)")
+
+    for readme in sorted(ROOT.glob("README*.md")):
+        found = relative_link.findall(readme.read_text(encoding="utf-8"))
+        assert not found, (readme.name, found)
+
+
+def test_readme_images_are_served_from_raw_not_blob_urls() -> None:
+    """A blob URL returns an HTML page, so an image referencing one renders broken."""
+    image = re.compile(r"!\[[^\]]*]\(([^)]+)\)")
+
+    for readme in sorted(ROOT.glob("README*.md")):
+        for url in image.findall(readme.read_text(encoding="utf-8")):
+            assert "/blob/" not in url, (readme.name, url)
