@@ -1,6 +1,6 @@
 # Publishing HOME Framework
 
-> **Status: Trusted Publisher configured. Version `0.1.0a4` has been published to PyPI through Trusted Publishing.**
+> **Status: Trusted Publisher configured. Version `0.1.0a5` has been published to PyPI through Trusted Publishing.**
 >
 > Future PyPI publications remain disabled until explicit approval. Neither this document nor the
 > workflow grants approval for another upload.

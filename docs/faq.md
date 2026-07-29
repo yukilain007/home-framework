@@ -95,7 +95,7 @@ The user decides what represents:
 
 ## Current status
 
-HOME Framework is currently alpha. The current release is `home-framework==0.1.0a4`.
+HOME Framework is currently alpha. The current release is `home-framework==0.1.0a5`.
 Capabilities and interfaces may change.
 
 ## Short version

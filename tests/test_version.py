@@ -41,7 +41,7 @@ def test_development_version_and_example_stay_distinct_from_frozen_release_recor
     unreleased = changelog.split("## Unreleased", maxsplit=1)[1].split("## [", maxsplit=1)[0]
     assert __version__ not in unreleased
     assert "Current development version: `0.1.0a5`" in readme
-    assert "Latest published PyPI release: `0.1.0a4`" in readme
+    assert "Latest published PyPI release: `0.1.0a5`" in readme
     assert "pip install home-framework" in readme
     assert "v0.1.0-alpha.5" in checklist
     previous_tag = "v0.1.0-alpha" + ".4"

@@ -1,85 +1,84 @@
 # Alpha release checklist
 
-This checklist covers the local release candidate for package version `0.1.0a5`. If separately
-approved, the matching annotated Git tag would be `v0.1.0-alpha.5`. The project is pre-release and
-not yet published; completing local checks does not authorize a tag, package upload, or hosted
-release.
+This checklist records the release candidate and published verification for package version
+`0.1.0a5`. The project remains an alpha pre-release; future package uploads and hosted releases
+require separate approval.
 
 ## v0.1.0-alpha.5
 
-- [ ] Metadata review completed
-- [ ] Packaging review completed
-- [ ] Security review completed
-- [ ] Release notes prepared
-- [ ] Tag approval pending
-- [ ] GitHub Release approval pending
-- [ ] PyPI publication approval pending
+- [x] Metadata review completed
+- [x] Packaging review completed
+- [x] Security review completed
+- [x] Release notes prepared
+- [x] Signed tag approved and verified
+- [x] GitHub Release published as a pre-release
+- [x] PyPI publication completed through Trusted Publishing
 
 ## Release candidate verification
 
 ### Source verification
 
-- [ ] Python 3.11 validation (`3.11.15`, official `python:3.11-slim` container)
-- [ ] Python 3.12 validation (`3.12.13`, local isolated environment)
-- [ ] JSON Schema drift check
-- [ ] Ruff format and lint
-- [ ] mypy strict source check
-- [ ] pytest suite
-- [ ] redacted secret scan
-- [ ] deterministic repeated-build fingerprint
-- [ ] clean Git working tree after committed audit fixes
+- [x] Python 3.11 validation (`3.11.15`, official `python:3.11-slim` container)
+- [x] Python 3.12 validation (`3.12.13`, local isolated environment)
+- [x] JSON Schema drift check
+- [x] Ruff format and lint
+- [x] mypy strict source check
+- [x] pytest suite
+- [x] redacted secret scan
+- [x] deterministic repeated-build fingerprint
+- [x] clean Git working tree after committed audit fixes
 
 ### Build artifact verification
 
-- [ ] sdist build
-- [ ] wheel build
-- [ ] `twine check` for both distributions
-- [ ] clean installation from the built wheel
-- [ ] installed console-script and subcommand help
-- [ ] fresh fictional workspace smoke test
-- [ ] generated export exclusion and archive-content checks
+- [x] sdist build
+- [x] wheel build
+- [x] `twine check` for both distributions
+- [x] clean installation from the built wheel
+- [x] installed console-script and subcommand help
+- [x] fresh fictional workspace smoke test
+- [x] generated export exclusion and archive-content checks
 
 ### Metadata verification
 
-- [ ] Distribution metadata reviewed for private names, paths, email addresses, and public URLs
-- [ ] Wheel and sdist content boundaries reviewed
-- [ ] README and changelog state the candidate is not published
-- [ ] Confirm the PyPI Trusted Publisher configuration
-- [ ] Confirm Apache-2.0 is the intended license for public release
-- [ ] Confirm public author metadata
-- [ ] Approve creation of annotated tag `v0.1.0-alpha.5`
+- [x] Distribution metadata reviewed for private names, paths, email addresses, and public URLs
+- [x] Wheel and sdist content boundaries reviewed
+- [x] README and changelog state the alpha.5 release is published
+- [x] Confirm the PyPI Trusted Publisher configuration
+- [x] Confirm Apache-2.0 is the intended license for public release
+- [x] Confirm public author metadata
+- [x] Confirm the signed annotated tag `v0.1.0-alpha.5`
 
 ## Published release verification
 
 ### PyPI install verification
 
-- [ ] Install the newly published package in a clean environment and run its release-specific
+- [x] Install the newly published package in a clean environment and run its release-specific
       smoke test. Record command exit status, validation count, selection result, and deterministic
       fingerprint in the freeze record.
-- [ ] Verify `docs/demo.md` only against its explicitly named artifact (`0.1.0a4`). Do not use its
+- [x] Verify `docs/demo.md` only against its explicitly named artifact (`0.1.0a4`). Do not use its
       historical fingerprint as a cross-version baseline.
-- [ ] Confirm the CLI behaviour in `docs/guides/zero-tech-user-guide.zh-CN.md` against the guide's
+- [x] Confirm the CLI behaviour in `docs/guides/zero-tech-user-guide.zh-CN.md` against the guide's
       explicitly named applicable version; update it only after a separately verified run.
-- [ ] Confirm the scope statement in `docs/guides/daily-context-management.zh-CN.md` remains
+- [x] Confirm the scope statement in `docs/guides/daily-context-management.zh-CN.md` remains
       accurate for any version it explicitly names.
 
 ### Public artifact verification
 
-- [ ] Review the published PyPI project page, wheel, and sdist for accurate public metadata and
+- [x] Review the published PyPI project page, wheel, and sdist for accurate public metadata and
       intended content boundaries.
 
 ### Freeze record
 
-- [ ] Create the release freeze record after the published artifact verification is complete.
+- [x] Create the release freeze record after the published artifact verification is complete.
 
 ## Requires public remote
 
 - [x] Choose the GitHub owner and repository name
 - [x] Add and review the public repository URL in project metadata
 - [x] Run the GitHub-hosted Python 3.11 workflow successfully for the existing public baseline
-- [ ] Approve the Alpha.5 preparation implementation push
-- [ ] Confirm a future annotated tag points to the approved Alpha.5 commit
-- [ ] Approve any PyPI upload or GitHub Release as a separate action
+- [x] Approve the Alpha.5 preparation implementation push
+- [x] Confirm the annotated tag points to the approved Alpha.5 commit
+- [x] Approve the PyPI upload and GitHub Release as separate actions
 
 ## Apache-2.0 provenance for future releases
 

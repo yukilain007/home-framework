@@ -101,7 +101,7 @@ def test_publishing_guide_keeps_publication_disabled_until_external_approval() -
     guide = (ROOT / "docs/publishing.md").read_text(encoding="utf-8")
 
     assert "Trusted Publisher configured." in guide
-    assert "Version `0.1.0a4` has been published to PyPI through Trusted Publishing." in guide
+    assert "Version `0.1.0a5` has been published to PyPI through Trusted Publishing." in guide
     assert "Future PyPI publications remain disabled until explicit approval." in guide
     assert "Trusted Publishing" in guide
     assert "OIDC" in guide

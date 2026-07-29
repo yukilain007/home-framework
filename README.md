@@ -44,7 +44,7 @@ HOME Framework is **not an automatic memory system**. It does not infer consent 
 content to third-party services.
 
 > **Alpha development.** Current development version: `0.1.0a5`.
-> Latest published PyPI release: `0.1.0a4` ([PyPI](https://pypi.org/project/home-framework/)).
+> Latest published PyPI release: `0.1.0a5` ([PyPI](https://pypi.org/project/home-framework/)).
 > File formats and command output may change before the first stable release.
 
 [![PyPI](https://img.shields.io/pypi/v/home-framework)](https://pypi.org/project/home-framework/)
