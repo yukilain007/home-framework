@@ -8,6 +8,8 @@ with a compatible AI tool.
 > existing PyPI distribution and does not contain the later Apache provenance hardening from commit
 > `4cb4da9adbb0311c6e5f1c226f6e22adf880c5ec`.
 
+**Verified PyPI artifact:** `0.1.0a4`
+
 ## Verified PyPI run
 
 Run in a fresh Python 3.12.13 virtual environment on 2026-07-26:
@@ -31,6 +33,8 @@ All four `home` commands exited with status `0`.
   `example-home/exports/project.execution.md`.
 - `home doctor` reported `0 errors and 0 warnings` for that export.
 
+**Context fingerprint:** `fcae86c77892749362faf3eba7d8a2a281bdba528f09c7bbab176ceaa2b882dd`
+
 ## Generated Context Handoff
 
 The generated file contains reviewed project guidance, not a transcript. Its key content was:
@@ -53,9 +57,8 @@ Use clear language for the fictional Atlas Notebook project.
 The fictional Atlas Notebook project is ready for local validation.
 ```
 
-The full output also contains a handoff ID, context date, schema version, and deterministic
-fingerprint. It is a derived file: review it first, then decide whether to give it to an external,
-compatible AI tool.
+The full output also contains a handoff ID, context date, and schema version. It is a derived file:
+review it first, then decide whether to give it to an external, compatible AI tool.
 
 ## Fictional handoff scenario
 
@@ -74,4 +77,4 @@ Handoffs. Only reviewed authority files participate in compilation. It does not 
 automatically, promote Candidates automatically, or upload files. The user decides what leaves the
 local workspace and whether a reviewed handoff is shared with a compatible AI tool.
 
-![HOME context handoff flow](assets/home-context-handoff-demo.svg)
+![HOME context handoff flow](https://raw.githubusercontent.com/yukilain007/home-framework/main/docs/assets/home-context-handoff-demo.svg)

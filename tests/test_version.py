@@ -77,13 +77,42 @@ def test_chinese_readme_provides_current_quickstart() -> None:
 
     assert "HOME Framework" in readme_zh
     assert "中文 Quickstart" in readme_zh
-    assert "pip install home-framework==0.1.0a4" in readme_zh
+    assert "pip install home-framework" in readme_zh
     assert "home init example-home --name example-home" in readme_zh
     assert "home validate examples/fictional-assistant" in readme_zh
     assert "home build examples/fictional-assistant" in readme_zh
     assert "home doctor examples/fictional-assistant --as-of 2026-07-20" in readme_zh
     assert "不是自动记忆系统" in readme_zh
     assert "不会把候选记忆编译进上下文" in readme_zh
+
+
+# Install entry points must never pin: a reader arriving at a README wants the current release,
+# and a pinned entry point permanently strands them on whatever version was current when it
+# was written.
+INSTALL_ENTRY_POINTS = ("README.md", "README.zh-CN.md")
+
+
+def test_install_entry_points_are_unpinned() -> None:
+    install_command = re.compile(r"pip install home-framework(==\S+)?")
+
+    for name in INSTALL_ENTRY_POINTS:
+        content = (ROOT / name).read_text(encoding="utf-8")
+        assert "pip install home-framework\n" in content, name
+        pins = [suffix for suffix in install_command.findall(content) if suffix]
+        assert not pins, (name, pins)
+
+
+def test_fixed_artifact_documents_keep_their_verified_versions() -> None:
+    demo = (ROOT / "docs/demo.md").read_text(encoding="utf-8")
+    zero_tech_guide = (ROOT / "docs/guides/zero-tech-user-guide.zh-CN.md").read_text(
+        encoding="utf-8"
+    )
+    fingerprint = "fcae86c77892749362faf3eba7d8a2a281bdba528f09c7bbab176ceaa2b882dd"
+
+    assert "home-framework==0.1.0a4" in demo
+    assert "**Verified PyPI artifact:** `0.1.0a4`" in demo
+    assert f"**Context fingerprint:** `{fingerprint}`" in demo
+    assert "home-framework==0.1.0a4" in zero_tech_guide
 
 
 def test_public_documentation_has_no_local_links_or_agent_instructions() -> None:
@@ -106,22 +135,29 @@ def test_public_documentation_has_no_local_links_or_agent_instructions() -> None
         assert internal_instruction not in content, path
 
 
-def test_every_readme_translation_uses_absolute_links() -> None:
-    """Both READMEs are rendered outside GitHub (PyPI, mirrors, scrapers).
+def _public_markdown() -> list[Path]:
+    """Markdown that gets rendered outside GitHub: PyPI, mirrors, scrapers."""
+    return [
+        *sorted(ROOT.glob("README*.md")),
+        ROOT / "SECURITY.md",
+        ROOT / "CONTRIBUTING.md",
+        *sorted((ROOT / "docs").rglob("*.md")),
+    ]
 
-    Relative links resolve to 404 there, so every translation must use absolute URLs.
-    """
+
+def test_public_markdown_uses_absolute_links() -> None:
+    """Relative links resolve to 404 off GitHub, so every translation must be absolute."""
     relative_link = re.compile(r"]\((?!https?://|#|mailto:)([^)]*)\)")
 
-    for readme in sorted(ROOT.glob("README*.md")):
-        found = relative_link.findall(readme.read_text(encoding="utf-8"))
-        assert not found, (readme.name, found)
+    for path in _public_markdown():
+        found = relative_link.findall(path.read_text(encoding="utf-8"))
+        assert not found, (path.name, found)
 
 
-def test_readme_images_are_served_from_raw_not_blob_urls() -> None:
+def test_public_markdown_images_are_served_from_raw_not_blob_urls() -> None:
     """A blob URL returns an HTML page, so an image referencing one renders broken."""
     image = re.compile(r"!\[[^\]]*]\(([^)]+)\)")
 
-    for readme in sorted(ROOT.glob("README*.md")):
-        for url in image.findall(readme.read_text(encoding="utf-8")):
-            assert "/blob/" not in url, (readme.name, url)
+    for path in _public_markdown():
+        for url in image.findall(path.read_text(encoding="utf-8")):
+            assert "/blob/" not in url, (path.name, url)

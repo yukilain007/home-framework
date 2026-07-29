@@ -4,7 +4,7 @@
 
 第一次使用 HOME，可以先阅读：
 
-[HOME 零技术用户安装与使用指南](zero-tech-user-guide.zh-CN.md)
+[HOME 零技术用户安装与使用指南](https://github.com/yukilain007/home-framework/blob/main/docs/guides/zero-tech-user-guide.zh-CN.md)
 
 这份指南适合已经完成安装和第一次初始化的用户。你不需要理解 YAML、schema 或 `core / current / candidate` 这些内部名称；你只需要判断：**这条信息以后还会不会影响我和 AI 的协作？如果会，应该留多久、给谁看？**
 

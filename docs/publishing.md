@@ -11,7 +11,7 @@ HOME Framework is designed to publish through PyPI Trusted Publishing. The GitHu
 uses OpenID Connect (OIDC) to request a short-lived publishing identity. It does not store or use
 a long-lived PyPI credential in the repository or GitHub Actions configuration.
 
-The workflow is [.github/workflows/publish.yml](../.github/workflows/publish.yml). Its first-stage
+The workflow is [.github/workflows/publish.yml](https://github.com/yukilain007/home-framework/blob/main/.github/workflows/publish.yml). Its first-stage
 trigger is `workflow_dispatch`, so a maintainer must start it manually from an exact release tag.
 A job guard skips publication when the selected Git ref is not a tag.
 

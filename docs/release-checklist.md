@@ -15,7 +15,9 @@ release.
 - [ ] GitHub Release approval pending
 - [ ] PyPI publication approval pending
 
-## Automated
+## Release candidate verification
+
+### Source verification
 
 - [ ] Python 3.11 validation (`3.11.15`, official `python:3.11-slim` container)
 - [ ] Python 3.12 validation (`3.12.13`, local isolated environment)
@@ -25,6 +27,10 @@ release.
 - [ ] pytest suite
 - [ ] redacted secret scan
 - [ ] deterministic repeated-build fingerprint
+- [ ] clean Git working tree after committed audit fixes
+
+### Build artifact verification
+
 - [ ] sdist build
 - [ ] wheel build
 - [ ] `twine check` for both distributions
@@ -32,9 +38,8 @@ release.
 - [ ] installed console-script and subcommand help
 - [ ] fresh fictional workspace smoke test
 - [ ] generated export exclusion and archive-content checks
-- [ ] clean Git working tree after committed audit fixes
 
-## Manual
+### Metadata verification
 
 - [ ] Distribution metadata reviewed for private names, paths, email addresses, and public URLs
 - [ ] Wheel and sdist content boundaries reviewed
@@ -43,6 +48,29 @@ release.
 - [ ] Confirm Apache-2.0 is the intended license for public release
 - [ ] Confirm public author metadata
 - [ ] Approve creation of annotated tag `v0.1.0-alpha.5`
+
+## Published release verification
+
+### PyPI install verification
+
+- [ ] Install the newly published package in a clean environment and run its release-specific
+      smoke test. Record command exit status, validation count, selection result, and deterministic
+      fingerprint in the freeze record.
+- [ ] Verify `docs/demo.md` only against its explicitly named artifact (`0.1.0a4`). Do not use its
+      historical fingerprint as a cross-version baseline.
+- [ ] Confirm the CLI behaviour in `docs/guides/zero-tech-user-guide.zh-CN.md` against the guide's
+      explicitly named applicable version; update it only after a separately verified run.
+- [ ] Confirm the scope statement in `docs/guides/daily-context-management.zh-CN.md` remains
+      accurate for any version it explicitly names.
+
+### Public artifact verification
+
+- [ ] Review the published PyPI project page, wheel, and sdist for accurate public metadata and
+      intended content boundaries.
+
+### Freeze record
+
+- [ ] Create the release freeze record after the published artifact verification is complete.
 
 ## Requires public remote
 

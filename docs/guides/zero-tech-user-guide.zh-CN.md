@@ -6,7 +6,7 @@ HOME 不会让 AI 获得永久记忆。在具备电脑操作权限的 AI 协助�
 
 **上下文延续不等于 AI 记忆。** 它不表示不同窗口里的 AI 拥有连续意识；HOME 管理的是你允许交付给某次任务的上下文。
 
-![HOME 零技术用户流程图](../assets/zero-tech-user-flow.zh-CN.svg)
+![HOME 零技术用户流程图](https://raw.githubusercontent.com/yukilain007/home-framework/main/docs/assets/zero-tech-user-flow.zh-CN.svg)
 
 ## 这份指南适合谁
 
@@ -136,7 +136,7 @@ Context Handoff 路径
 - 一次 `doctor` 的诊断结果；
 - 由你决定是否使用、分享或重新生成的交接文件。
 
-如果你想进一步理解工具的技术边界，请阅读 [中文项目入口](../../README.zh-CN.md)、[隐私模型](../privacy-model.md) 与 [安全政策](../../SECURITY.md)。
+如果你想进一步理解工具的技术边界，请阅读 [中文项目入口](https://github.com/yukilain007/home-framework/blob/main/README.zh-CN.md)、[隐私模型](https://github.com/yukilain007/home-framework/blob/main/docs/privacy-model.md) 与 [安全政策](https://github.com/yukilain007/home-framework/blob/main/SECURITY.md)。
 
 ## 常见问题
 

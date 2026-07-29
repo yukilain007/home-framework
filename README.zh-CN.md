@@ -217,7 +217,7 @@ HOME 不承诺绝对安全或永久保存。它提供的是更清晰的边界、
 HOME Framework 需要 Python 3.11 或更新版本。安装最新已发布的 alpha 包：
 
 ```bash
-python -m pip install home-framework==0.1.0a4
+pip install home-framework
 ```
 
 查看 CLI：
