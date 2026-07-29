@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use HOME Framework in your work, please cite it as below."
+title: "HOME Framework"
+abstract: "A local-first framework for deterministic human-AI context handoffs."
+type: software
+authors:
+  - given-names: "Yuki"
+    email: "293018124+yukilain007@users.noreply.github.com"
+repository-code: "https://github.com/yukilain007/home-framework"
+url: "https://github.com/yukilain007/home-framework"
+license: Apache-2.0
+version: "0.1.0a5"
+date-released: "2026-07-29"
+keywords:
+  - context-management
+  - human-in-the-loop
+  - local-first
+  - provenance
+  - reproducible-builds
