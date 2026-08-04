@@ -1,0 +1,75 @@
+{
+  "additionalProperties": false,
+  "description": "A model-agnostic record of a recall choice, not a permission grant.",
+  "properties": {
+    "action": {
+      "enum": [
+        "none",
+        "reuse",
+        "supplement",
+        "refresh"
+      ],
+      "title": "Action",
+      "type": "string"
+    },
+    "generatedAt": {
+      "format": "date-time",
+      "title": "Generatedat",
+      "type": "string"
+    },
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "const": "recall_decision",
+      "title": "Kind",
+      "type": "string"
+    },
+    "reason": {
+      "minLength": 1,
+      "title": "Reason",
+      "type": "string"
+    },
+    "requestedScopes": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 1,
+        "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+        "type": "string"
+      },
+      "title": "Requestedscopes",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selectedMemoryIds": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+        "type": "string"
+      },
+      "title": "Selectedmemoryids",
+      "type": "array"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "id",
+    "action",
+    "reason",
+    "requestedScopes",
+    "selectedMemoryIds",
+    "generatedAt"
+  ],
+  "title": "RecallDecision",
+  "type": "object"
+}

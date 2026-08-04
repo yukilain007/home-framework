@@ -1,0 +1,84 @@
+{
+  "additionalProperties": false,
+  "description": "A reviewable proposal that never enters a handoff by itself.",
+  "properties": {
+    "category": {
+      "minLength": 1,
+      "title": "Category",
+      "type": "string"
+    },
+    "confidence": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "content": {
+      "minLength": 1,
+      "title": "Content",
+      "type": "string"
+    },
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "const": "memory_candidate",
+      "title": "Kind",
+      "type": "string"
+    },
+    "rationale": {
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    },
+    "reviewedAt": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reviewedat"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source": {
+      "minLength": 1,
+      "title": "Source",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "proposed",
+        "accepted",
+        "rejected"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "id",
+    "content",
+    "category",
+    "source",
+    "rationale",
+    "confidence",
+    "status"
+  ],
+  "title": "MemoryCandidate",
+  "type": "object"
+}

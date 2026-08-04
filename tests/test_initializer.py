@@ -38,6 +38,16 @@ def test_initializes_existing_empty_directory(tmp_path: Path) -> None:
     assert all((target / relative).is_dir() for relative in EXPECTED_DIRECTORIES)
 
 
+def test_optional_continuity_examples_are_opt_in(tmp_path: Path) -> None:
+    target = tmp_path / "continuity-workspace"
+
+    initialize_workspace(target, "example-home", include_continuity=True)
+
+    assert (target / "continuity").is_dir()
+    snapshot = load_repository(target)
+    assert snapshot.continuity_count == 6
+
+
 def test_repeated_initialization_is_idempotent_and_preserves_files(tmp_path: Path) -> None:
     target = tmp_path / "workspace"
     initialize_workspace(target, "example-home")

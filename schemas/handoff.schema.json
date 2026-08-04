@@ -4,6 +4,17 @@
       "additionalProperties": false,
       "description": "Explicit selectors and sensitivity allowlist for a handoff.",
       "properties": {
+        "continuity_ids": {
+          "default": [],
+          "items": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Continuity Ids",
+          "type": "array"
+        },
         "core_ids": {
           "default": [],
           "items": {

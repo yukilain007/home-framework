@@ -1,0 +1,9 @@
+kind: memory_candidate
+schema_version: "1.0"
+id: candidate.preference
+content: A fictional proposal awaiting human review.
+category: preference
+source: fictional review note
+rationale: It may help a later project handoff.
+confidence: 0.5
+status: proposed

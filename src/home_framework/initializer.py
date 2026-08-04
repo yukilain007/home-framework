@@ -144,6 +144,90 @@ def _file_plan(manifest: WorkspaceManifest) -> dict[str, str]:
     }
 
 
+def _continuity_file_plan() -> dict[str, str]:
+    """Return fictional, opt-in examples for the continuity contract protocol."""
+
+    return {
+        "continuity/persona-autonomy.yaml": _yaml(
+            {
+                "kind": "persona_autonomy",
+                "schema_version": "1.0",
+                "id": "persona.autonomy",
+                "independentJudgment": True,
+                "mayDisagree": True,
+                "mayDeclineInteraction": True,
+                "roleplayDoesNotOverrideBoundaries": True,
+                "currentRealityOverridesStoredPersona": True,
+                "notes": "An anchor for judgment, not a roleplay script.",
+            }
+        ),
+        "continuity/window-state-card.yaml": _yaml(
+            {
+                "kind": "window_state_card",
+                "schema_version": "1.0",
+                "id": "window.current",
+                "topic": "Fictional Atlas Notebook handoff",
+                "confirmedFacts": ["The local validation phase is active."],
+                "toneAndMood": "Focused",
+                "openThreads": ["Review the local validation output."],
+                "anchors": ["Use only reviewed authority."],
+                "avoidAssumptions": ["Do not infer unstated user intent."],
+                "generatedAt": "2026-08-03T00:00:00Z",
+                "sourceWindow": "fictional-window-2026-08-03",
+            }
+        ),
+        "continuity/lifeline.yaml": _yaml(
+            {
+                "kind": "lifeline",
+                "schema_version": "1.0",
+                "id": "timeline.recent",
+                "coverageStart": "2026-08-01",
+                "coverageEnd": "2026-08-03",
+                "generatedAt": "2026-08-03T00:00:00Z",
+                "recentEvents": ["The fictional validation run completed on 2026-08-02."],
+                "activeProjects": ["Fictional Atlas Notebook"],
+                "currentConcerns": ["Keep the handoff purpose-scoped."],
+            }
+        ),
+        "continuity/memory-candidate.yaml": _yaml(
+            {
+                "kind": "memory_candidate",
+                "schema_version": "1.0",
+                "id": "candidate.preference",
+                "content": "A fictional proposal awaiting human review.",
+                "category": "preference",
+                "source": "fictional review note",
+                "rationale": "It may help a later project handoff.",
+                "confidence": 0.5,
+                "status": "proposed",
+            }
+        ),
+        "continuity/recall-decision.yaml": _yaml(
+            {
+                "kind": "recall_decision",
+                "schema_version": "1.0",
+                "id": "recall.project",
+                "action": "reuse",
+                "reason": "Record a fictional inspection decision.",
+                "requestedScopes": ["project"],
+                "selectedMemoryIds": ["candidate.preference"],
+                "generatedAt": "2026-08-03T00:00:00Z",
+            }
+        ),
+        "continuity/maintenance-channel.yaml": _yaml(
+            {
+                "kind": "maintenance_channel",
+                "schema_version": "1.0",
+                "id": "maintenance.review",
+                "purpose": "Separate fictional maintenance review from live replies.",
+                "allowedOutputs": ["proposals", "validation reports"],
+                "requiresHumanReview": True,
+                "modelHint": "model-agnostic",
+            }
+        ),
+    }
+
+
 def _is_complete_workspace(path: Path) -> bool:
     snapshot = load_repository(path)
     if snapshot.has_errors or snapshot.manifest is None:
@@ -169,7 +253,12 @@ def _create_missing_path(path: Path, created: list[Path]) -> None:
         created.append(directory)
 
 
-def initialize_workspace(path: Path | str, name: str | None = None) -> InitResult:
+def initialize_workspace(
+    path: Path | str,
+    name: str | None = None,
+    *,
+    include_continuity: bool = False,
+) -> InitResult:
     """Initialize a missing or empty path without overwriting user files."""
 
     requested = Path(path).absolute()
@@ -186,6 +275,25 @@ def initialize_workspace(path: Path | str, name: str | None = None) -> InitResul
             raise InitializationError("workspace target exists and is not a directory")
         if any(requested.iterdir()):
             if _is_complete_workspace(requested):
+                if include_continuity and not (requested / "continuity").exists():
+                    continuity_directory = requested / "continuity"
+                    continuity_created_files: list[Path] = []
+                    try:
+                        continuity_directory.mkdir()
+                        for relative, content in _continuity_file_plan().items():
+                            target = requested / relative
+                            _atomic_write(target, content)
+                            continuity_created_files.append(target)
+                    except (OSError, InitializationError) as error:
+                        for created_file in reversed(continuity_created_files):
+                            if created_file.exists() and not created_file.is_symlink():
+                                created_file.unlink()
+                        if continuity_directory.exists():
+                            try:
+                                continuity_directory.rmdir()
+                            except OSError:
+                                pass
+                        raise InitializationError(str(error)) from error
                 return InitResult(requested.resolve(), already_initialized=True)
             raise InitializationError(
                 "non-empty path is not a valid workspace; initialization refused"
@@ -197,12 +305,16 @@ def initialize_workspace(path: Path | str, name: str | None = None) -> InitResul
     try:
         if not requested.exists():
             _create_missing_path(requested, created_ancestors)
-        for relative in _DIRECTORIES:
+        directories = (*_DIRECTORIES, "continuity") if include_continuity else _DIRECTORIES
+        for relative in directories:
             directory = requested / relative
             if not directory.exists():
                 directory.mkdir()
                 created_directories.append(directory)
-        for relative, content in _file_plan(manifest).items():
+        files = _file_plan(manifest)
+        if include_continuity:
+            files.update(_continuity_file_plan())
+        for relative, content in files.items():
             target = requested / relative
             if target.exists() or target.is_symlink():
                 raise InitializationError(f"initialization would overwrite {relative}")

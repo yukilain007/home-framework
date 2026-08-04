@@ -1,0 +1,10 @@
+kind: recall_decision
+schema_version: "1.0"
+id: recall.project
+action: reuse
+reason: Record a fictional inspection decision.
+requestedScopes:
+  - project
+selectedMemoryIds:
+  - candidate.preference
+generatedAt: "2026-08-03T00:00:00Z"

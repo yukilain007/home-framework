@@ -1,0 +1,12 @@
+kind: lifeline
+schema_version: "1.0"
+id: timeline.recent
+coverageStart: "2026-08-01"
+coverageEnd: "2026-08-03"
+generatedAt: "2026-08-03T00:00:00Z"
+recentEvents:
+  - The fictional validation run completed on 2026-08-02.
+activeProjects:
+  - Fictional Atlas Notebook
+currentConcerns:
+  - Keep the handoff purpose-scoped.

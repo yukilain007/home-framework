@@ -14,6 +14,12 @@ from home_framework.models import (
     CoreDocument,
     CurrentDocument,
     HandoffDocument,
+    LifeLine,
+    MaintenanceChannel,
+    MemoryCandidate,
+    PersonaAutonomy,
+    RecallDecision,
+    WindowStateCard,
     WorkspaceManifest,
 )
 
@@ -24,6 +30,12 @@ SCHEMA_MODELS: Final[dict[str, type[BaseModel]]] = {
     "handoff.schema.json": HandoffDocument,
     "workspace.schema.json": WorkspaceManifest,
     "export-metadata.schema.json": ExportMetadata,
+    "persona-autonomy.schema.json": PersonaAutonomy,
+    "window-state-card.schema.json": WindowStateCard,
+    "lifeline.schema.json": LifeLine,
+    "memory-candidate.schema.json": MemoryCandidate,
+    "recall-decision.schema.json": RecallDecision,
+    "maintenance-channel.schema.json": MaintenanceChannel,
 }
 
 
@@ -32,7 +44,9 @@ def export_schemas(output_dir: Path = Path("schemas")) -> None:
 
     output_dir.mkdir(parents=True, exist_ok=True)
     for filename, model in SCHEMA_MODELS.items():
-        rendered = json.dumps(model.model_json_schema(), indent=2, sort_keys=True) + "\n"
+        rendered = (
+            json.dumps(model.model_json_schema(by_alias=True), indent=2, sort_keys=True) + "\n"
+        )
         (output_dir / filename).write_text(rendered, encoding="utf-8", newline="\n")
 
 

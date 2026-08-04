@@ -1,0 +1,15 @@
+kind: window_state_card
+schema_version: "1.0"
+id: window.current
+topic: Fictional Atlas Notebook handoff
+confirmedFacts:
+  - The local validation phase is active.
+toneAndMood: Focused
+openThreads:
+  - Review the local validation output.
+anchors:
+  - Use only reviewed authority.
+avoidAssumptions:
+  - Do not infer unstated user intent.
+generatedAt: "2026-08-03T00:00:00Z"
+sourceWindow: fictional-window-2026-08-03

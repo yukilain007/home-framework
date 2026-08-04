@@ -73,3 +73,11 @@ def test_distribution_provenance_build_is_dev_only_and_uses_an_offline_temp_copy
     for excluded in (".git", "dist", "build", ".egg-info"):
         assert excluded in script
     assert "/Users/" not in script
+
+
+def test_sdist_excludes_repository_only_ci_and_secret_allowlist_files() -> None:
+    sdist = _pyproject()["tool"]["hatch"]["build"]["targets"]["sdist"]
+
+    assert "/docs/superpowers" in sdist["exclude"]
+    assert "/.github" in sdist["exclude"]
+    assert "/.home-secret-scan-allowlist" in sdist["exclude"]

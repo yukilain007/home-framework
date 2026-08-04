@@ -1,0 +1,75 @@
+{
+  "additionalProperties": false,
+  "description": "A bounded timeline whose coverage always has explicit dates.",
+  "properties": {
+    "activeProjects": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Activeprojects",
+      "type": "array"
+    },
+    "coverageEnd": {
+      "format": "date",
+      "title": "Coverageend",
+      "type": "string"
+    },
+    "coverageStart": {
+      "format": "date",
+      "title": "Coveragestart",
+      "type": "string"
+    },
+    "currentConcerns": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Currentconcerns",
+      "type": "array"
+    },
+    "generatedAt": {
+      "format": "date-time",
+      "title": "Generatedat",
+      "type": "string"
+    },
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "const": "lifeline",
+      "title": "Kind",
+      "type": "string"
+    },
+    "recentEvents": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Recentevents",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "id",
+    "coverageStart",
+    "coverageEnd",
+    "generatedAt",
+    "recentEvents",
+    "activeProjects",
+    "currentConcerns"
+  ],
+  "title": "LifeLine",
+  "type": "object"
+}

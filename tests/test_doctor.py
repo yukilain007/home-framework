@@ -1,5 +1,5 @@
 import subprocess
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import pytest
@@ -29,7 +29,10 @@ def build_export(root: Path) -> Path:
     assert snapshot.manifest is not None
     output = root / snapshot.manifest.defaults.export_directory / "project.execution.md"
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(render_markdown(compiled), encoding="utf-8")
+    output.write_text(
+        render_markdown(compiled, generated_at=datetime(2026, 7, 20, 12, tzinfo=UTC)),
+        encoding="utf-8",
+    )
     return output
 
 
@@ -145,6 +148,14 @@ def test_candidate_lifecycle_is_reported(tmp_path: Path) -> None:
 
     assert "pending_candidate" in codes
     assert "approved_candidate" in codes
+
+
+def test_continuity_review_boundaries_are_reported(tmp_path: Path) -> None:
+    initialize_workspace(tmp_path, "example-home", include_continuity=True)
+
+    codes = diagnostic_codes(tmp_path)
+
+    assert "continuity_memory_candidate_proposed" in codes
 
 
 def test_lifecycle_diagnostic_uses_actual_nested_authority_path(tmp_path: Path) -> None:

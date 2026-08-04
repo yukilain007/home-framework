@@ -5,7 +5,14 @@ from pathlib import Path
 import pytest
 
 from home_framework.compiler import CompilationError, compile_context
-from home_framework.models import CandidateDocument, CoreDocument, CurrentDocument, HandoffDocument
+from home_framework.models import (
+    CandidateDocument,
+    CoreDocument,
+    CurrentDocument,
+    HandoffDocument,
+    MemoryCandidate,
+    RecallDecision,
+)
 from home_framework.renderer import render_markdown
 from home_framework.repository import Diagnostic, RepositorySnapshot
 
@@ -79,11 +86,60 @@ def candidate() -> CandidateDocument:
     )
 
 
+def persona_anchor() -> object:
+    from home_framework.models import PersonaAutonomy
+
+    return PersonaAutonomy.model_validate(
+        {
+            "kind": "persona_autonomy",
+            "schema_version": "1.0",
+            "id": "persona.autonomy",
+            "independentJudgment": True,
+            "mayDisagree": True,
+            "mayDeclineInteraction": True,
+            "roleplayDoesNotOverrideBoundaries": True,
+            "currentRealityOverridesStoredPersona": True,
+        }
+    )
+
+
+def memory_candidate() -> MemoryCandidate:
+    return MemoryCandidate.model_validate(
+        {
+            "kind": "memory_candidate",
+            "schema_version": "1.0",
+            "id": "candidate.memory",
+            "content": "A proposal.",
+            "category": "preference",
+            "source": "fictional review",
+            "rationale": "For testing only.",
+            "confidence": 0.5,
+            "status": "proposed",
+        }
+    )
+
+
+def recall_decision() -> RecallDecision:
+    return RecallDecision.model_validate(
+        {
+            "kind": "recall_decision",
+            "schema_version": "1.0",
+            "id": "recall.memory",
+            "action": "reuse",
+            "reason": "For testing only.",
+            "requestedScopes": ["project"],
+            "selectedMemoryIds": ["candidate.memory"],
+            "generatedAt": "2026-07-20T10:00:00Z",
+        }
+    )
+
+
 def handoff(
     *,
     scopes: tuple[str, ...] = ("project",),
     core_ids: tuple[str, ...] = (),
     current_ids: tuple[str, ...] = (),
+    continuity_ids: tuple[str, ...] = (),
     sensitivities: tuple[str, ...] = ("public",),
 ) -> HandoffDocument:
     return HandoffDocument.model_validate(
@@ -97,6 +153,7 @@ def handoff(
                 "scopes": list(scopes),
                 "core_ids": list(core_ids),
                 "current_ids": list(current_ids),
+                "continuity_ids": list(continuity_ids),
                 "sensitivities": list(sensitivities),
             },
             "output": {"format": "markdown"},
@@ -111,6 +168,7 @@ def snapshot(
     candidates: tuple[CandidateDocument, ...] = (),
     selected_handoff: HandoffDocument | None = None,
     diagnostics: tuple[Diagnostic, ...] = (),
+    continuity: tuple[object, ...] = (),
 ) -> RepositorySnapshot:
     return RepositorySnapshot(
         root=Path("/fictional/repository"),
@@ -119,6 +177,16 @@ def snapshot(
         candidates=candidates,
         handoffs=(selected_handoff or handoff(),),
         diagnostics=diagnostics,
+        persona_autonomy=tuple(item for item in continuity if item.kind == "persona_autonomy"),
+        window_state_cards=tuple(item for item in continuity if item.kind == "window_state_card"),
+        lifelines=tuple(item for item in continuity if item.kind == "lifeline"),
+        continuity_memory_candidates=tuple(
+            item for item in continuity if item.kind == "memory_candidate"
+        ),
+        recall_decisions=tuple(item for item in continuity if item.kind == "recall_decision"),
+        maintenance_channels=tuple(
+            item for item in continuity if item.kind == "maintenance_channel"
+        ),
     )
 
 
@@ -156,6 +224,30 @@ def test_candidate_is_never_selected() -> None:
     compiled = compile_snapshot(snapshot(candidates=(candidate(),)))
 
     assert compiled.documents == ()
+
+
+def test_explicit_renderable_continuity_is_selected() -> None:
+    anchor = persona_anchor()
+    repository = snapshot(
+        selected_handoff=handoff(scopes=(), continuity_ids=("persona.autonomy",)),
+        continuity=(anchor,),
+    )
+
+    compiled = compile_snapshot(repository)
+
+    assert [item.id for item in compiled.continuity] == ["persona.autonomy"]
+
+
+@pytest.mark.parametrize("contract_factory", [memory_candidate, recall_decision])
+def test_memory_and_recall_contracts_cannot_enter_handoff(contract_factory) -> None:  # type: ignore[no-untyped-def]
+    contract = contract_factory()
+    repository = snapshot(
+        selected_handoff=handoff(scopes=(), continuity_ids=(contract.id,)),
+        continuity=(contract,),
+    )
+
+    with pytest.raises(CompilationError, match="cannot be included"):
+        compile_snapshot(repository)
 
 
 @pytest.mark.parametrize(
@@ -441,3 +533,20 @@ def test_markdown_renderer_marks_empty_sections() -> None:
 
     assert "_No stable core selected._" in rendered
     assert "_No current context selected._" in rendered
+
+
+def test_markdown_renderer_includes_selected_continuity_notes() -> None:
+    rendered = render_markdown(
+        compile_snapshot(
+            snapshot(
+                selected_handoff=handoff(scopes=(), continuity_ids=("persona.autonomy",)),
+                continuity=(persona_anchor(),),
+            )
+        ),
+        generated_at=datetime(2026, 7, 20, 12, 0, tzinfo=UTC),
+    )
+
+    assert "## Continuity context" in rendered
+    assert "### Persona autonomy anchor" in rendered
+    assert "Independent judgment: `True`" in rendered
+    assert "not a fixed roleplay script" in rendered

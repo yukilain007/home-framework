@@ -10,7 +10,14 @@ import json
 from dataclasses import dataclass
 from datetime import date
 
-from home_framework.models import CoreDocument, CurrentDocument, HandoffDocument
+from home_framework.models import (
+    ContinuityRenderable,
+    CoreDocument,
+    CurrentDocument,
+    HandoffDocument,
+    MemoryCandidate,
+    RecallDecision,
+)
 from home_framework.repository import RepositorySnapshot
 
 CompiledDocument = CoreDocument | CurrentDocument
@@ -28,6 +35,7 @@ class CompiledContext:
     documents: tuple[CompiledDocument, ...]
     as_of: date
     fingerprint: str
+    continuity: tuple[ContinuityRenderable, ...] = ()
 
 
 def _is_selected(
@@ -49,13 +57,23 @@ def _sort_key(document: CompiledDocument) -> tuple[int, int, str]:
 def _fingerprint(
     handoff: HandoffDocument,
     documents: tuple[CompiledDocument, ...],
+    continuity: tuple[ContinuityRenderable, ...],
     as_of: date,
 ) -> str:
+    handoff_payload = handoff.model_dump(mode="json")
+    if not handoff.include.continuity_ids:
+        include_payload = handoff_payload.get("include")
+        if isinstance(include_payload, dict):
+            include_payload.pop("continuity_ids", None)
     payload = {
         "as_of": as_of.isoformat(),
         "documents": [document.model_dump(mode="json") for document in documents],
-        "handoff": handoff.model_dump(mode="json"),
+        "handoff": handoff_payload,
     }
+    if continuity:
+        payload["continuity"] = [
+            contract.model_dump(mode="json", by_alias=True) for contract in continuity
+        ]
     canonical = json.dumps(
         payload,
         ensure_ascii=False,
@@ -99,9 +117,22 @@ def compile_context(
             selected.append(current_document)
 
     documents = tuple(sorted(selected, key=_sort_key))
+    contracts_by_id = {contract.id: contract for contract in snapshot.continuity_contracts}
+    selected_continuity: list[ContinuityRenderable] = []
+    for continuity_id in handoff.include.continuity_ids:
+        contract = contracts_by_id.get(continuity_id)
+        if contract is None:
+            raise CompilationError(f"continuity contract {continuity_id!r} was not found")
+        if isinstance(contract, (MemoryCandidate, RecallDecision)):
+            raise CompilationError(
+                f"continuity contract {continuity_id!r} cannot be included in a handoff"
+            )
+        selected_continuity.append(contract)
+    continuity = tuple(sorted(selected_continuity, key=lambda item: (item.kind, item.id)))
     return CompiledContext(
         handoff=handoff,
         documents=documents,
         as_of=as_of,
-        fingerprint=_fingerprint(handoff, documents, as_of),
+        fingerprint=_fingerprint(handoff, documents, continuity, as_of),
+        continuity=continuity,
     )

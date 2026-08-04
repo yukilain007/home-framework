@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "description": "A vendor-neutral boundary between live replies and maintenance work.",
+  "properties": {
+    "allowedOutputs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Allowedoutputs",
+      "type": "array"
+    },
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "const": "maintenance_channel",
+      "title": "Kind",
+      "type": "string"
+    },
+    "modelHint": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Modelhint"
+    },
+    "purpose": {
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "requiresHumanReview": {
+      "title": "Requireshumanreview",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "id",
+    "purpose",
+    "allowedOutputs",
+    "requiresHumanReview"
+  ],
+  "title": "MaintenanceChannel",
+  "type": "object"
+}

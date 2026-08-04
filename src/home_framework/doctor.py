@@ -63,6 +63,56 @@ def _lifecycle_diagnostics(snapshot_root: Path, snapshot: object, as_of: date) -
                 )
             )
 
+    for continuity_candidate in snapshot.continuity_memory_candidates:
+        if continuity_candidate.status == "proposed":
+            diagnostics.append(
+                Diagnostic(
+                    "warning",
+                    "continuity_memory_candidate_proposed",
+                    snapshot.path_for(
+                        continuity_candidate.id, f"continuity/{continuity_candidate.id}"
+                    ),
+                    None,
+                    "continuity memory candidate is awaiting human review and remains "
+                    "outside handoffs",
+                )
+            )
+        elif continuity_candidate.status == "accepted":
+            diagnostics.append(
+                Diagnostic(
+                    "warning",
+                    "continuity_memory_candidate_accepted",
+                    snapshot.path_for(
+                        continuity_candidate.id, f"continuity/{continuity_candidate.id}"
+                    ),
+                    None,
+                    "accepted continuity memory candidate still requires explicit "
+                    "authority integration",
+                )
+            )
+
+    for persona in snapshot.persona_autonomy:
+        if not persona.current_reality_overrides_stored_persona:
+            diagnostics.append(
+                Diagnostic(
+                    "warning",
+                    "persona_reality_precedence_disabled",
+                    snapshot.path_for(persona.id, f"continuity/{persona.id}"),
+                    None,
+                    "stored persona does not explicitly yield to current reality",
+                )
+            )
+    for channel in snapshot.maintenance_channels:
+        if not channel.requires_human_review:
+            diagnostics.append(
+                Diagnostic(
+                    "warning",
+                    "maintenance_channel_review_disabled",
+                    snapshot.path_for(channel.id, f"continuity/{channel.id}"),
+                    None,
+                    "maintenance channel does not require human review",
+                )
+            )
     inactive_count = sum(
         document.status == "inactive" for document in (*snapshot.core, *snapshot.current)
     )
@@ -261,6 +311,7 @@ def _git_diagnostics(root: Path, export_directory: str | None) -> list[Diagnosti
             "sources/current",
             "candidates",
             "handoffs",
+            "continuity",
         ],
     )
     if status.stdout.strip():

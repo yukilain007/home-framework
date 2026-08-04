@@ -17,10 +17,17 @@ from pydantic import BaseModel, ValidationError
 from home_framework import __version__
 from home_framework.models import (
     CandidateDocument,
+    ContinuityContract,
     CoreDocument,
     CurrentDocument,
     Document,
     HandoffDocument,
+    LifeLine,
+    MaintenanceChannel,
+    MemoryCandidate,
+    PersonaAutonomy,
+    RecallDecision,
+    WindowStateCard,
     WorkspaceManifest,
 )
 from home_framework.path_safety import PathSafetyError, first_symlink_component
@@ -51,6 +58,12 @@ class RepositorySnapshot:
     diagnostics: tuple[Diagnostic, ...]
     manifest: WorkspaceManifest | None = None
     document_paths: tuple[tuple[str, str], ...] = ()
+    persona_autonomy: tuple[PersonaAutonomy, ...] = ()
+    window_state_cards: tuple[WindowStateCard, ...] = ()
+    lifelines: tuple[LifeLine, ...] = ()
+    continuity_memory_candidates: tuple[MemoryCandidate, ...] = ()
+    recall_decisions: tuple[RecallDecision, ...] = ()
+    maintenance_channels: tuple[MaintenanceChannel, ...] = ()
 
     @property
     def has_errors(self) -> bool:
@@ -59,6 +72,28 @@ class RepositorySnapshot:
     @property
     def document_count(self) -> int:
         return len(self.core) + len(self.current) + len(self.candidates) + len(self.handoffs)
+
+    @property
+    def continuity_contracts(self) -> tuple[ContinuityContract, ...]:
+        """Return all continuity contracts in stable kind and ID order."""
+
+        return tuple(
+            sorted(
+                (
+                    *self.persona_autonomy,
+                    *self.window_state_cards,
+                    *self.lifelines,
+                    *self.continuity_memory_candidates,
+                    *self.recall_decisions,
+                    *self.maintenance_channels,
+                ),
+                key=lambda item: (item.kind, item.id),
+            )
+        )
+
+    @property
+    def continuity_count(self) -> int:
+        return len(self.continuity_contracts)
 
     def path_for(self, document_id: str, fallback: str) -> str:
         """Return the loaded workspace-relative source path for a document ID."""
@@ -82,6 +117,15 @@ _DIRECTORIES = (
     _DirectorySpec("candidates", "candidate", CandidateDocument),
     _DirectorySpec("handoffs", "handoff", HandoffDocument),
 )
+
+_CONTINUITY_MODELS: dict[str, type[BaseModel]] = {
+    "persona_autonomy": PersonaAutonomy,
+    "window_state_card": WindowStateCard,
+    "lifeline": LifeLine,
+    "memory_candidate": MemoryCandidate,
+    "recall_decision": RecallDecision,
+    "maintenance_channel": MaintenanceChannel,
+}
 
 
 def _relative(path: Path, root: Path) -> str:
@@ -263,6 +307,73 @@ def _load_file(
     return cast(Document, document)
 
 
+def _load_continuity_file(
+    path: Path,
+    root: Path,
+    diagnostics: list[Diagnostic],
+) -> ContinuityContract | None:
+    """Load one optional continuity contract selected by its explicit kind."""
+
+    relative_path = _relative(path, root)
+    try:
+        raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError) as error:
+        diagnostics.append(Diagnostic("error", "file_read", relative_path, None, str(error)))
+        return None
+    except yaml.YAMLError as error:
+        diagnostics.append(
+            Diagnostic(
+                "error",
+                "yaml_syntax",
+                relative_path,
+                _yaml_location(error),
+                str(error).splitlines()[0],
+            )
+        )
+        return None
+
+    if not isinstance(raw, dict):
+        diagnostics.append(
+            Diagnostic(
+                "error",
+                "continuity_root_not_mapping",
+                relative_path,
+                None,
+                "continuity contract root must be a mapping",
+            )
+        )
+        return None
+
+    kind = raw.get("kind")
+    model = _CONTINUITY_MODELS.get(kind) if isinstance(kind, str) else None
+    if model is None:
+        diagnostics.append(
+            Diagnostic(
+                "error",
+                "continuity_kind_unknown",
+                relative_path,
+                "kind",
+                f"unsupported continuity contract kind {kind!r}",
+            )
+        )
+        return None
+
+    try:
+        return cast(ContinuityContract, model.model_validate(raw))
+    except ValidationError as error:
+        for issue in error.errors(include_url=False):
+            diagnostics.append(
+                Diagnostic(
+                    "error",
+                    "continuity_schema_validation",
+                    relative_path,
+                    _validation_location(issue["loc"]),
+                    str(issue["msg"]),
+                )
+            )
+        return None
+
+
 def _discover_yaml_files(
     directory: Path,
     root: Path,
@@ -389,6 +500,12 @@ def load_repository(root: Path | str) -> RepositorySnapshot:
     current: list[CurrentDocument] = []
     candidates: list[CandidateDocument] = []
     handoffs: list[HandoffDocument] = []
+    persona_autonomy: list[PersonaAutonomy] = []
+    window_state_cards: list[WindowStateCard] = []
+    lifelines: list[LifeLine] = []
+    continuity_memory_candidates: list[MemoryCandidate] = []
+    recall_decisions: list[RecallDecision] = []
+    maintenance_channels: list[MaintenanceChannel] = []
     paths_by_id: dict[str, str] = {}
     reported_symlink_directories: set[str] = set()
     manifest = _load_manifest(repository_root, diagnostics)
@@ -505,6 +622,83 @@ def load_repository(root: Path | str) -> RepositorySnapshot:
             else:
                 handoffs.append(document)
 
+    continuity_directory = repository_root / "continuity"
+    continuity_symlink = _first_symlink_component(continuity_directory, repository_root)
+    if continuity_symlink is not None:
+        relative_symlink = _relative(continuity_symlink, repository_root)
+        if relative_symlink not in reported_symlink_directories:
+            diagnostics.append(
+                Diagnostic(
+                    "error",
+                    "symlink_directory",
+                    relative_symlink,
+                    None,
+                    "continuity directory and its ancestors must not be symbolic links",
+                )
+            )
+            reported_symlink_directories.add(relative_symlink)
+    elif continuity_directory.exists() and not continuity_directory.is_dir():
+        diagnostics.append(
+            Diagnostic(
+                "error",
+                "continuity_directory_invalid",
+                "continuity",
+                None,
+                "continuity path exists and is not a directory",
+            )
+        )
+    elif continuity_directory.is_dir():
+        try:
+            resolved_continuity = continuity_directory.resolve(strict=True)
+        except OSError as error:
+            diagnostics.append(
+                Diagnostic("error", "directory_read", "continuity", None, str(error))
+            )
+        else:
+            if not resolved_continuity.is_relative_to(repository_root):
+                diagnostics.append(
+                    Diagnostic(
+                        "error",
+                        "path_outside_repository",
+                        "continuity",
+                        None,
+                        "continuity directory resolves outside the repository root",
+                    )
+                )
+            else:
+                for path in _discover_yaml_files(
+                    continuity_directory, repository_root, diagnostics
+                ):
+                    contract = _load_continuity_file(path, repository_root, diagnostics)
+                    if contract is None:
+                        continue
+                    relative_path = _relative(path, repository_root)
+                    first_path = paths_by_id.get(contract.id)
+                    if first_path is not None:
+                        diagnostics.append(
+                            Diagnostic(
+                                "error",
+                                "duplicate_id",
+                                relative_path,
+                                "id",
+                                f"document id {contract.id!r} is already defined in {first_path}",
+                            )
+                        )
+                    else:
+                        paths_by_id[contract.id] = relative_path
+                    if isinstance(contract, PersonaAutonomy):
+                        persona_autonomy.append(contract)
+                    elif isinstance(contract, WindowStateCard):
+                        window_state_cards.append(contract)
+                    elif isinstance(contract, LifeLine):
+                        lifelines.append(contract)
+                    elif isinstance(contract, MemoryCandidate):
+                        continuity_memory_candidates.append(contract)
+                    elif isinstance(contract, RecallDecision):
+                        recall_decisions.append(contract)
+                    else:
+                        maintenance_channels.append(contract)
+
     core_ids = {document.id for document in core}
     current_ids = {document.id for document in current}
     for handoff in handoffs:
@@ -531,6 +725,43 @@ def load_repository(root: Path | str) -> RepositorySnapshot:
                         f"handoff references missing current id {document_id!r}",
                     )
                 )
+        continuity_ids = {
+            item.id
+            for item in (
+                *persona_autonomy,
+                *window_state_cards,
+                *lifelines,
+                *continuity_memory_candidates,
+                *recall_decisions,
+                *maintenance_channels,
+            )
+        }
+        for document_id in handoff.include.continuity_ids:
+            if document_id not in continuity_ids:
+                diagnostics.append(
+                    Diagnostic(
+                        "error",
+                        "missing_continuity_reference",
+                        handoff_path,
+                        "include.continuity_ids",
+                        f"handoff references missing continuity id {document_id!r}",
+                    )
+                )
+
+    memory_candidate_ids = {item.id for item in continuity_memory_candidates}
+    for decision in recall_decisions:
+        decision_path = paths_by_id.get(decision.id, "continuity")
+        for memory_id in decision.selected_memory_ids:
+            if memory_id not in memory_candidate_ids:
+                diagnostics.append(
+                    Diagnostic(
+                        "error",
+                        "missing_memory_candidate_reference",
+                        decision_path,
+                        "selectedMemoryIds",
+                        f"recall decision references missing memory candidate {memory_id!r}",
+                    )
+                )
 
     ordered_diagnostics = tuple(
         sorted(
@@ -553,4 +784,10 @@ def load_repository(root: Path | str) -> RepositorySnapshot:
         diagnostics=ordered_diagnostics,
         manifest=manifest,
         document_paths=tuple(sorted(paths_by_id.items())),
+        persona_autonomy=tuple(persona_autonomy),
+        window_state_cards=tuple(window_state_cards),
+        lifelines=tuple(lifelines),
+        continuity_memory_candidates=tuple(continuity_memory_candidates),
+        recall_decisions=tuple(recall_decisions),
+        maintenance_channels=tuple(maintenance_channels),
     )

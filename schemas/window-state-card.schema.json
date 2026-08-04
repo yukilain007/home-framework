@@ -1,0 +1,97 @@
+{
+  "additionalProperties": false,
+  "description": "A dated context note, not a command list or task queue.",
+  "properties": {
+    "anchors": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Anchors",
+      "type": "array"
+    },
+    "avoidAssumptions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Avoidassumptions",
+      "type": "array"
+    },
+    "confirmedFacts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Confirmedfacts",
+      "type": "array"
+    },
+    "generatedAt": {
+      "format": "date-time",
+      "title": "Generatedat",
+      "type": "string"
+    },
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "const": "window_state_card",
+      "title": "Kind",
+      "type": "string"
+    },
+    "openThreads": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Openthreads",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sourceWindow": {
+      "minLength": 1,
+      "title": "Sourcewindow",
+      "type": "string"
+    },
+    "toneAndMood": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Toneandmood"
+    },
+    "topic": {
+      "minLength": 1,
+      "title": "Topic",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "id",
+    "topic",
+    "confirmedFacts",
+    "openThreads",
+    "anchors",
+    "avoidAssumptions",
+    "generatedAt",
+    "sourceWindow"
+  ],
+  "title": "WindowStateCard",
+  "type": "object"
+}

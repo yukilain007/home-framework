@@ -1,0 +1,67 @@
+{
+  "additionalProperties": false,
+  "description": "A judgment anchor, never a fixed roleplay script.",
+  "properties": {
+    "currentRealityOverridesStoredPersona": {
+      "title": "Currentrealityoverridesstoredpersona",
+      "type": "boolean"
+    },
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "independentJudgment": {
+      "title": "Independentjudgment",
+      "type": "boolean"
+    },
+    "kind": {
+      "const": "persona_autonomy",
+      "title": "Kind",
+      "type": "string"
+    },
+    "mayDeclineInteraction": {
+      "title": "Maydeclineinteraction",
+      "type": "boolean"
+    },
+    "mayDisagree": {
+      "title": "Maydisagree",
+      "type": "boolean"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "roleplayDoesNotOverrideBoundaries": {
+      "title": "Roleplaydoesnotoverrideboundaries",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "id",
+    "independentJudgment",
+    "mayDisagree",
+    "mayDeclineInteraction",
+    "roleplayDoesNotOverrideBoundaries",
+    "currentRealityOverridesStoredPersona"
+  ],
+  "title": "PersonaAutonomy",
+  "type": "object"
+}

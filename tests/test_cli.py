@@ -99,6 +99,38 @@ def test_validate_success_returns_zero_and_document_count(tmp_path: Path) -> Non
     assert "0 warnings" in result.stdout
 
 
+def test_inspect_reports_continuity_contracts_without_compiling(tmp_path: Path) -> None:
+    create_repository(tmp_path)
+    write_yaml(
+        tmp_path,
+        "continuity/persona.yaml",
+        {
+            "kind": "persona_autonomy",
+            "schema_version": "1.0",
+            "id": "persona.autonomy",
+            "independentJudgment": True,
+            "mayDisagree": True,
+            "mayDeclineInteraction": True,
+            "roleplayDoesNotOverrideBoundaries": True,
+            "currentRealityOverridesStoredPersona": True,
+        },
+    )
+    result = runner.invoke(app, ["inspect", str(tmp_path)])
+
+    assert result.exit_code == 0
+    assert '"kind": "persona_autonomy"' in result.stdout
+    assert '"independentJudgment": true' in result.stdout
+
+
+def test_inspect_without_continuity_is_non_error(tmp_path: Path) -> None:
+    create_repository(tmp_path)
+
+    result = runner.invoke(app, ["inspect", str(tmp_path)])
+
+    assert result.exit_code == 0
+    assert result.stdout.strip() == "No continuity contracts found."
+
+
 def test_validate_rejects_workspace_requiring_newer_framework(tmp_path: Path) -> None:
     create_repository(tmp_path)
     manifest_path = tmp_path / "home.yaml"
@@ -152,6 +184,93 @@ def test_build_success_creates_default_export(tmp_path: Path) -> None:
     assert "Fingerprint:" in result.stdout
     assert "<!-- generated file: do not edit -->" in output.read_text(encoding="utf-8")
     assert not list(output.parent.glob("*.tmp"))
+
+
+def _select_continuity(root: Path, continuity_id: str) -> None:
+    handoff_path = root / "handoffs/project.yaml"
+    handoff = yaml.safe_load(handoff_path.read_text(encoding="utf-8"))
+    handoff["include"]["continuity_ids"] = [continuity_id]
+    handoff_path.write_text(yaml.safe_dump(handoff, sort_keys=False), encoding="utf-8")
+
+
+def _write_memory_candidate(root: Path) -> None:
+    write_yaml(
+        root,
+        "continuity/candidate.yaml",
+        {
+            "kind": "memory_candidate",
+            "schema_version": "1.0",
+            "id": "candidate.memory",
+            "content": "A proposal that is not approved authority.",
+            "category": "preference",
+            "source": "fictional review",
+            "rationale": "Test candidate isolation.",
+            "confidence": 0.5,
+            "status": "proposed",
+        },
+    )
+
+
+def _write_recall_decision(root: Path) -> None:
+    write_yaml(
+        root,
+        "continuity/recall.yaml",
+        {
+            "kind": "recall_decision",
+            "schema_version": "1.0",
+            "id": "recall.memory",
+            "action": "reuse",
+            "reason": "Test recall isolation.",
+            "requestedScopes": ["project"],
+            "selectedMemoryIds": ["candidate.memory"],
+            "generatedAt": "2026-08-03T00:00:00Z",
+        },
+    )
+
+
+def test_build_rejects_memory_candidate_from_handoff(tmp_path: Path) -> None:
+    create_repository(tmp_path)
+    _write_memory_candidate(tmp_path)
+    _select_continuity(tmp_path, "candidate.memory")
+
+    result = runner.invoke(
+        app,
+        [
+            "build",
+            str(tmp_path),
+            "--handoff",
+            "project.execution",
+            "--as-of",
+            "2026-08-03",
+        ],
+    )
+
+    assert result.exit_code != 0
+    assert "cannot be included in a handoff" in result.stderr
+    assert not (tmp_path / "exports/project.execution.md").exists()
+
+
+def test_build_rejects_recall_decision_from_handoff(tmp_path: Path) -> None:
+    create_repository(tmp_path)
+    _write_memory_candidate(tmp_path)
+    _write_recall_decision(tmp_path)
+    _select_continuity(tmp_path, "recall.memory")
+
+    result = runner.invoke(
+        app,
+        [
+            "build",
+            str(tmp_path),
+            "--handoff",
+            "project.execution",
+            "--as-of",
+            "2026-08-03",
+        ],
+    )
+
+    assert result.exit_code != 0
+    assert "cannot be included in a handoff" in result.stderr
+    assert not (tmp_path / "exports/project.execution.md").exists()
 
 
 def test_build_rejects_workspace_requiring_newer_framework_without_output(

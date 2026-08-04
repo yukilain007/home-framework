@@ -1,0 +1,9 @@
+kind: maintenance_channel
+schema_version: "1.0"
+id: maintenance.review
+purpose: Separate fictional maintenance review from live replies.
+allowedOutputs:
+  - proposals
+  - validation reports
+requiresHumanReview: true
+modelHint: model-agnostic
