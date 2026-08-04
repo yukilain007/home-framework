@@ -43,9 +43,9 @@ English | [简体中文](https://github.com/yukilain007/home-framework/blob/main
 HOME Framework is **not an automatic memory system**. It does not infer consent or send workspace
 content to third-party services.
 
-> **Alpha development.** Current development version: `0.1.0a5`.
+> **Alpha development.** Current development version: `0.2.0a1`.
 > Latest published PyPI release: `0.1.0a5` ([PyPI](https://pypi.org/project/home-framework/)).
-> File formats and command output may change before the first stable release.
+> `0.2.0a1` is an unreleased development version; file formats and command output may change.
 
 [![PyPI](https://img.shields.io/pypi/v/home-framework)](https://pypi.org/project/home-framework/)
 [![Python](https://img.shields.io/pypi/pyversions/home-framework)](https://pypi.org/project/home-framework/)
@@ -94,6 +94,19 @@ for an AI-assisted local setup with explicit user approvals.
 - [Architecture](https://github.com/yukilain007/home-framework/blob/main/docs/architecture.md)
 - [Privacy model](https://github.com/yukilain007/home-framework/blob/main/docs/privacy-model.md)
 - [Contributing](https://github.com/yukilain007/home-framework/blob/main/CONTRIBUTING.md)
+
+## v0.2 development surface
+
+The upcoming `0.2.0a1` development line adds user-controlled continuity contracts and a
+provider-neutral artifact workflow. Creation requires explicit approval; verified local
+`HandoffPackage` artifacts can be exported atomically or adapted to a local Markdown
+representation. Nothing is automatically remembered, uploaded, delivered, or sent to a
+provider.
+
+See the [continuity contracts](https://github.com/yukilain007/home-framework/blob/main/docs/continuity-contracts.md),
+[Adapter Boundary ADR](https://github.com/yukilain007/home-framework/blob/main/docs/adr/0009-adapter-boundary.md),
+and [Handoff Package ADR](https://github.com/yukilain007/home-framework/blob/main/docs/adr/0010-handoff-package-protocol.md)
+for the protocol details.
 
 ## What HOME produces
 
@@ -192,7 +205,7 @@ kind: workspace
 schema_version: "1.0"
 name: example-home
 framework:
-  minimum_version: 0.1.0a5
+  minimum_version: 0.2.0a1
 defaults:
   export_directory: exports
 ```
@@ -278,8 +291,8 @@ authority data, or modify schemas.
 ## Roadmap
 
 Possible later increments include schema migration tooling, richer renderer plugins, explicit
-export garbage collection, and compatibility testing on additional Python versions. They are
-outside the `0.1.0a5` scope.
+export garbage collection, and compatibility testing on additional Python versions. They remain
+outside the current `0.2.0a1` development scope.
 
 ## License
 

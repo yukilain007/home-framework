@@ -13,7 +13,7 @@ ROOT = Path(__file__).parents[1]
 def test_version_uses_hatch_file_source() -> None:
     pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
 
-    assert __version__ == "0.1.0a5"
+    assert __version__ == "0.2.0a1"
     assert pyproject["project"]["dynamic"] == ["version"]
     assert "version" not in pyproject["project"]
     assert pyproject["tool"]["hatch"]["version"]["path"] == "src/home_framework/__init__.py"
@@ -31,6 +31,8 @@ def test_development_version_and_example_stay_distinct_from_frozen_release_recor
     checklist = (ROOT / "docs/release-checklist.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     freeze_path = ROOT / "docs/releases/v0.1.0-alpha.4-freeze.md"
+    readme_zh = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+    faq = (ROOT / "docs/faq.md").read_text(encoding="utf-8")
     example = yaml.safe_load(
         (ROOT / "examples/fictional-assistant/home.yaml").read_text(encoding="utf-8")
     )
@@ -39,9 +41,14 @@ def test_development_version_and_example_stay_distinct_from_frozen_release_recor
     assert "## [0.1.0a5] - 2026-07-28" in changelog
     assert "## [0.1.0a4] - 2026-07-22" in changelog
     unreleased = changelog.split("## Unreleased", maxsplit=1)[1].split("## [", maxsplit=1)[0]
-    assert __version__ not in unreleased
-    assert "Current development version: `0.1.0a5`" in readme
+    assert "0.2.0a1 development line" in unreleased
+    assert "0.1.0a5" not in unreleased
+    assert "Current development version: `0.2.0a1`" in readme
     assert "Latest published PyPI release: `0.1.0a5`" in readme
+    assert "当前开发版本为 `home-framework 0.2.0a1`" in readme_zh
+    assert "最新已发布的 PyPI 版本仍为 `home-framework 0.1.0a5`" in readme_zh
+    assert "0.2.0a1" in faq
+    assert "not published to PyPI" in " ".join(faq.split())
     assert "pip install home-framework" in readme
     assert "v0.1.0-alpha.5" in checklist
     previous_tag = "v0.1.0-alpha" + ".4"
@@ -52,6 +59,15 @@ def test_development_version_and_example_stay_distinct_from_frozen_release_recor
     assert "Alpha.4 is frozen." in freeze
     assert "13c3e76373902db71f2eeb16d3945f2af1ad4a99" in freeze
     assert "Published via Trusted Publishing" in freeze
+
+
+def test_v02_compatibility_note_documents_explicit_render_metadata() -> None:
+    changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+
+    assert "render_markdown()" in changelog
+    assert "timezone-aware" in changelog
+    assert "hidden system-clock dependency" in changelog
+    assert "0.2.0a1" in changelog
 
 
 def test_previous_version_only_appears_in_historical_records() -> None:

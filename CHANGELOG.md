@@ -6,6 +6,17 @@ The project follows Semantic Versioning. Prerelease APIs may change before `1.0.
 
 ## Unreleased
 
+### 0.2.0a1 development line
+
+- Added user-controlled continuity contracts with explicit separation from memory, identity, and
+  consciousness claims.
+- Added immutable `HandoffPackage` creation, verification, atomic local export, and a
+  provider-neutral local Markdown adaptation boundary.
+- Added package CLI workflows that require explicit approval and never deliver or upload content.
+- `render_markdown()` now requires an explicit timezone-aware `generated_at` input. This removes
+  the hidden system-clock dependency and makes identical explicit inputs deterministic; direct
+  callers must update to pass the timestamp.
+
 ## [0.1.0a5] - 2026-07-28
 
 ### 0.1.0a5 release candidate

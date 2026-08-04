@@ -3,4 +3,4 @@
 
 """HOME Framework public package."""
 
-__version__ = "0.1.0a5"
+__version__ = "0.2.0a1"

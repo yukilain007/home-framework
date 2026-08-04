@@ -14,6 +14,40 @@ workspace manifest and YAML authority files
   → atomic CLI write
 ```
 
+The v0.2 artifact path keeps the reviewed context and its external representations separate:
+
+```text
+Workspace
+  ↓
+Repository loader
+  ↓
+Compiler
+  ↓
+CompiledContext
+  ↓
+Renderer + explicit ApprovalInput
+  ↓
+PackageFactory
+  ↓
+HandoffPackage
+  ├─ Verification
+  ├─ Atomic Export
+  └─ Adapter
+       ↓
+ExternalRepresentationArtifact
+```
+
+The boundaries are intentional:
+
+- `conversation != fact`, `suggestion != approval`, and `history != permission`;
+- `create != approve`, `export != delivery`, `adapt != send`, and `verify != authority`;
+- a Package receives already-reviewed, explicitly approved content and never selects authority;
+- an Adapter receives only a Package, cannot read the workspace, and currently has no provider or
+  automatic delivery path.
+
+`render_markdown()` requires an explicit timezone-aware `generated_at` value. This removes a
+hidden system-clock dependency; callers using the function directly must provide that value.
+
 ## Module boundaries
 
 ### `models`
@@ -88,3 +122,12 @@ Sorting is stable:
 Default and custom output paths are normalized, checked for lexical and resolved containment, and
 checked component-by-component for symbolic links before the atomic write. Export metadata is
 derived from `CompiledContext`; the real generation timestamp remains outside the fingerprint.
+
+## Optional continuity contracts
+
+The optional `continuity/` directory is loaded through the same bounded repository path checks.
+Its strict, discriminated contracts are validated independently of the existing authority
+documents. A handoff must opt in with `include.continuity_ids`; persona anchors, window state
+cards, lifelines, and maintenance channels can be rendered, while memory candidates and recall
+decisions remain inspect-only and are rejected by the compiler if selected. The default
+initializer and handoff flow remain unchanged when the directory is absent.

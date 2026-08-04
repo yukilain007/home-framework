@@ -263,12 +263,22 @@ home doctor example-home --as-of 2026-07-20 --strict
 
 ## 当前状态
 
-HOME Framework 仍处于 alpha prerelease 阶段。当前开发版本为 `home-framework 0.1.0a5`。
+HOME Framework 仍处于 alpha prerelease 阶段。当前开发版本为 `home-framework 0.2.0a1`。
 
-最新已发布的 PyPI 版本为 `home-framework 0.1.0a5`，已通过 GitHub Actions OIDC Trusted
-Publishing 发布到 PyPI。
+最新已发布的 PyPI 版本仍为 `home-framework 0.1.0a5`，已通过 GitHub Actions OIDC Trusted
+Publishing 发布到 PyPI。`0.2.0a1` 只是尚未发布的开发版本。
 
 接口、schema 和命令输出仍可能变化。请不要把当前 alpha 版本当作稳定协议使用。
+
+## v0.2 开发方向
+
+`0.2.0a1` 的开发线增加了用户控制的 continuity contracts 和 provider-neutral 的本地
+artifact 流程。创建 Package 前必须提供明确批准；验证后的 `HandoffPackage` 可以原子导出，
+也可以转换为本地 Markdown 表示。它不会自动记忆、上传、交付或发送给任何模型供应商。
+
+详细边界见 [continuity contracts](https://github.com/yukilain007/home-framework/blob/main/docs/continuity-contracts.md)、
+[Adapter Boundary ADR](https://github.com/yukilain007/home-framework/blob/main/docs/adr/0009-adapter-boundary.md)
+和 [Handoff Package ADR](https://github.com/yukilain007/home-framework/blob/main/docs/adr/0010-handoff-package-protocol.md)。
 
 ## Developer Documentation
 

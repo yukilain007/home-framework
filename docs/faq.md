@@ -95,8 +95,14 @@ The user decides what represents:
 
 ## Current status
 
-HOME Framework is currently alpha. The current release is `home-framework==0.1.0a5`.
-Capabilities and interfaces may change.
+HOME Framework is currently alpha. The latest published release is
+`home-framework==0.1.0a5`. The upcoming development version is `0.2.0a1`, which is not
+published to PyPI. Capabilities and interfaces may change.
+
+The `0.2.0a1` development line adds user-controlled continuity contracts and a provider-neutral
+local artifact workflow. Package creation requires explicit approval; verification, atomic export,
+and local Markdown adaptation do not grant authority or deliver content. No provider integration,
+automatic memory, or automatic upload is included.
 
 ## Short version
 
