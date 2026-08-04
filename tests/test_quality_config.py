@@ -51,7 +51,11 @@ def test_public_package_classifiers_are_reviewed_and_do_not_duplicate_license() 
 def test_sdist_excludes_internal_development_records() -> None:
     hatch = _pyproject()["tool"]["hatch"]
 
-    assert hatch["build"]["targets"]["sdist"]["exclude"] == ["/docs/superpowers"]
+    assert set(hatch["build"]["targets"]["sdist"]["exclude"]) == {
+        "/docs/superpowers",
+        "/.github",
+        "/.home-secret-scan-allowlist",
+    }
 
 
 def test_publish_workflow_is_manual_oidc_template() -> None:
