@@ -1,31 +1,26 @@
+import subprocess
+import sys
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
-from typer.testing import CliRunner
-
 import home_framework
-from home_framework.cli import app
-
-runner = CliRunner()
 
 
-def _help_text(result: object) -> str:
-    """Read help from every stream used by supported Typer/Click versions."""
+def _module_help(*arguments: str) -> str:
+    """Capture both output streams from the active Python environment."""
 
-    streams = [getattr(result, "stdout", ""), getattr(result, "output", "")]
-    try:
-        streams.append(getattr(result, "stderr", ""))
-    except ValueError:
-        # Older Click versions only expose the combined output stream.
-        pass
-    return " ".join(stream for stream in streams if stream).lower()
+    result = subprocess.run(
+        [sys.executable, "-m", "home_framework.cli", *arguments, "--help"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr
+    return f"{result.stdout}\n{result.stderr}".lower()
 
 
 def test_package_help_lists_all_artifact_operations() -> None:
-    result = runner.invoke(app, ["package", "--help"])
-
-    assert result.exit_code == 0
-    help_text = _help_text(result)
+    help_text = _module_help("package")
     for command in ("verify", "export", "adapt", "create"):
         assert command in help_text
     assert "verify local handoffpackage artifacts" not in help_text
@@ -45,10 +40,7 @@ def test_package_subcommand_help_describes_boundaries() -> None:
     }
 
     for command, phrases in cases.items():
-        result = runner.invoke(app, ["package", command, "--help"])
-
-        assert result.exit_code == 0
-        help_text = " ".join(_help_text(result).split())
+        help_text = " ".join(_module_help("package", command).split())
         for phrase in phrases:
             assert phrase.lower() in help_text, (command, phrase)
 
