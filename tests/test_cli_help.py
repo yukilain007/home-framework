@@ -1,9 +1,12 @@
+import re
 import subprocess
 import sys
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 import home_framework
+
+_ANSI_ESCAPE_RE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 
 
 def _module_help(*arguments: str) -> str:
@@ -16,7 +19,7 @@ def _module_help(*arguments: str) -> str:
         text=True,
     )
     assert result.returncode == 0, result.stderr
-    return f"{result.stdout}\n{result.stderr}".lower()
+    return _ANSI_ESCAPE_RE.sub("", f"{result.stdout}\n{result.stderr}").lower()
 
 
 def test_package_help_lists_all_artifact_operations() -> None:
